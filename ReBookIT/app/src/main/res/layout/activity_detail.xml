@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    tools:context="be.rebookit.vandeboschremy.re_book_it.DetailActivity>
+    <ScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:layout_width="200dp"
+                android:layout_height="300dp"
+                android:id="@+id/bookImage"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true">
+            </ImageView>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/tv_TitleDetail"
+                android:layout_toRightOf="@+id/bookImage"
+                android:layout_marginLeft="10dp">
+            </TextView>
+
+            <View
+                android:layout_width="wrap_content"
+                android:layout_height="1dp"
+                android:background="#dadada"
+                android:layout_marginLeft="208dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginTop="5dp"
+                android:layout_below="@id/tv_TitleDetail">
+            </View>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/tv_authors"
+                android:layout_toRightOf="@id/bookImage"
+                android:layout_below="@id/tv_price"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="10dp">
+            </TextView>
+
+            <View
+                android:layout_width="wrap_content"
+                android:layout_height="1dp"
+                android:background="#dadada"
+                android:layout_marginLeft="208dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginTop="5dp"
+                android:layout_below="@id/tv_authors">
+            </View>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/tv_edition"
+                android:layout_toRightOf="@id/bookImage"
+                android:layout_below="@id/tv_authors"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="10dp">
+            </TextView>
+
+            <View
+                android:layout_width="wrap_content"
+                android:layout_height="1dp"
+                android:background="#dadada"
+                android:layout_marginLeft="208dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginTop="5dp"
+                android:layout_below="@id/tv_edition">
+            </View>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/tv_ISBN"
+                android:layout_toRightOf="@id/bookImage"
+                android:layout_below="@id/tv_edition"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="10dp">
+            </TextView>
+
+            <View
+                android:layout_width="wrap_content"
+                android:layout_height="1dp"
+                android:background="#dadada"
+                android:layout_marginLeft="208dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginTop="5dp"
+                android:layout_below="@id/tv_ISBN">
+            </View>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/tv_courses"
+                android:layout_below="@id/bookImage"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="8dp">
+            </TextView>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/tv_courses_full"
+                android:layout_below="@id/tv_courses"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="8dp">
+            </TextView>
+
+            <View
+                android:layout_width="wrap_content"
+                android:layout_height="1dp"
+                android:background="#dadada"
+                android:layout_marginHorizontal="8dp"
+                android:layout_marginTop="5dp"
+                android:layout_below="@id/tv_courses_full">
+            </View>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/tv_institutions"
+                android:layout_below="@id/tv_courses_full"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="8dp">
+            </TextView>
+
+            <View
+                android:layout_width="wrap_content"
+                android:layout_height="1dp"
+                android:background="#dadada"
+                android:layout_marginHorizontal="8dp"
+                android:layout_marginTop="5dp"
+                android:layout_below="@id/tv_institutions">
+            </View>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/tv_price"
+                android:layout_below="@id/tv_subtitle"
+                android:layout_toRightOf="@id/bookImage"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="10dp">
+            </TextView>
+
+            <View
+                android:layout_width="wrap_content"
+                android:layout_height="1dp"
+                android:background="#dadada"
+                android:layout_marginLeft="208dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginTop="5dp"
+                android:layout_below="@id/tv_price">
+            </View>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/tv_count"
+                android:layout_below="@id/tv_institutions"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="8dp">
+            </TextView>
+
+            <View
+                android:layout_width="wrap_content"
+                android:layout_height="1dp"
+                android:background="#dadada"
+                android:layout_marginHorizontal="8dp"
+                android:layout_marginTop="5dp"
+                android:layout_below="@id/tv_count">
+            </View>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/tv_subtitle"
+                android:layout_toRightOf="@id/bookImage"
+                android:layout_below="@id/tv_TitleDetail"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="10dp">
+            </TextView>
+
+            <View
+                android:layout_width="wrap_content"
+                android:layout_height="1dp"
+                android:background="#dadada"
+                android:layout_marginLeft="208dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginTop="5dp"
+                android:layout_below="@id/tv_subtitle">
+            </View>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/tv_quality"
+                android:layout_toRightOf="@id/tv_count"
+                android:layout_below="@id/tv_institutions"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp">
+            </TextView>
+
+        </RelativeLayout>
+    </ScrollView>
+
+</RelativeLayout>

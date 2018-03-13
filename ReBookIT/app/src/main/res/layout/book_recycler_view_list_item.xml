@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:layout_width="290dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/tv_bookTitle"
+        android:padding="16dp"
+        android:layout_marginLeft="20dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignLeft="@+id/tv_priceTag"
+        android:layout_marginRight="10dp">
+    </TextView>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tv_priceTag"
+        android:padding="16dp"
+        android:layout_alignParentRight="true">
+    </TextView>
+
+    <ImageView
+        android:id="@+id/qualitytag"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginLeft="8dp"
+        android:layout_centerVertical="true">
+    </ImageView>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#dadada"
+        android:layout_below="@id/tv_bookTitle"
+        android:layout_marginHorizontal="8dp" >
+    </View>
+
+
+</RelativeLayout>
+</LinearLayout>
