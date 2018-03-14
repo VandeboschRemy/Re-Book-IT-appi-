@@ -209,6 +209,20 @@
                 android:layout_marginTop="10dp">
             </TextView>
 
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/buy_button"
+                android:layout_below="@id/tv_count"
+                android:layout_marginTop="30dp"
+                android:paddingHorizontal="8dp"
+                android:layout_marginHorizontal="8dp"
+                android:layout_marginBottom="80dp"
+                android:layout_centerHorizontal="true"
+                android:text="@string/but_button"
+                android:background="@color/green">
+            </Button>
+
         </RelativeLayout>
     </ScrollView>
 

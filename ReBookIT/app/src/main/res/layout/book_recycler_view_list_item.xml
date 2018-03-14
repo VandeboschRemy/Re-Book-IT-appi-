@@ -15,7 +15,7 @@
         android:padding="16dp"
         android:layout_marginLeft="20dp"
         android:layout_alignParentLeft="true"
-        android:layout_alignLeft="@+id/tv_priceTag"
+        android:layout_toLeftOf="@+id/tv_priceTag"
         android:layout_marginRight="10dp">
     </TextView>
 

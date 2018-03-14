@@ -39,6 +39,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        if(savedInstanceState != null && savedInstanceState.containsKey(this.getString(R.string.query_key))){
+            query = savedInstanceState.getString(this.getString(R.string.query_key));
+        }
+
         mBookList = (RecyclerView) findViewById(R.id.rv);
         mBookList.setLayoutManager(new LinearLayoutManager(this));
         query = null;
@@ -136,6 +140,12 @@ public class MainActivity extends AppCompatActivity {
         mCursor = cursor;
         mAdapter = new BookListAdapter(MainActivity.this, mCursor);
         mBookList.setAdapter(mAdapter);
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState){
+        super.onSaveInstanceState(outState);
+        outState.putString(this.getString(R.string.query_key), query);
     }
 
     private class Downloader extends AsyncTask<String,Void,Void> {

@@ -86,8 +86,8 @@ public class BookListAdapter extends RecyclerView.Adapter<BookListAdapter.BookLi
         public void onClick(View v) {
             int pos = getAdapterPosition();
             Intent intent = new Intent(mContext, DetailActivity.class);
-            intent.putExtra("ROW_ID", pos);
-            intent.putExtra("QUERY", MainActivity.getQuery());
+            intent.putExtra(mContext.getString(R.string.row_id_key), pos);
+            intent.putExtra(mContext.getString(R.string.query_key), MainActivity.getQuery());
             mContext.startActivity(intent);
         }
     }

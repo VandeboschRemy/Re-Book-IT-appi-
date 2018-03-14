@@ -9,6 +9,8 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -28,17 +30,18 @@ public class DetailActivity extends AppCompatActivity{
     private ImageView bookImage;
     private Cursor cursor;
     private TextView title,subtitle,authors,edition,courses,coursesFull,isbn,institutions,price,count,quality;
+    private Button buyButton;
 
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
 
         Intent intent = getIntent();
-        if(intent.hasExtra("ROW_ID")){
-            pos = intent.getIntExtra("ROW_ID", 0);
+        if(intent.hasExtra(this.getString(R.string.row_id_key))){
+            pos = intent.getIntExtra(this.getString(R.string.row_id_key), 0);
         }
-        if(intent.hasExtra("QUERY")){
-            String query = intent.getStringExtra("QUERY");
+        if(intent.hasExtra(this.getString(R.string.query_key))){
+            String query = intent.getStringExtra(this.getString(R.string.query_key));
             if(query != null){
                 cursor = DatabaseUtils.getCursorFromDBySearch(query);
             }
@@ -48,6 +51,8 @@ public class DetailActivity extends AppCompatActivity{
         }
 
         bookImage = (ImageView) findViewById(R.id.bookImage);
+        bookImage.setImageResource(R.drawable.default_image);
+
         title = (TextView) findViewById(R.id.tv_TitleDetail);
         subtitle = (TextView) findViewById(R.id.tv_subtitle);
         authors = (TextView) findViewById(R.id.tv_authors);
@@ -59,6 +64,17 @@ public class DetailActivity extends AppCompatActivity{
         price = (TextView) findViewById(R.id.tv_price);
         count = (TextView) findViewById(R.id.tv_count);
         quality = (TextView) findViewById(R.id.tv_quality);
+        buyButton = (Button) findViewById(R.id.buy_button);
+        buyButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Uri webpage = Uri.parse("https://rebookit.be/login");
+                Intent intent = new Intent(Intent.ACTION_VIEW, webpage);
+                if (intent.resolveActivity(getPackageManager()) != null) {
+                    startActivity(intent);
+                }
+            }
+        });
 
         showData(pos);
     }
@@ -76,9 +92,17 @@ public class DetailActivity extends AppCompatActivity{
         authors.setText("Authors: "+ cursor.getString(cursor.getColumnIndex(BookDataSheet.DataTable.COLUMN_NAME_AUTHORS)));
         edition.setText(cursor.getString(cursor.getColumnIndex(BookDataSheet.DataTable.COLUMN_NAME_EDITION)));
         if(!cursor.getString(cursor.getColumnIndex(BookDataSheet.DataTable.COLUMN_NAME_COURSES)).equals("[]")){
-            courses.setText("Courses: "+ cursor.getString(cursor.getColumnIndex(BookDataSheet.DataTable.COLUMN_NAME_COURSES)));
-            coursesFull.setText(cursor.getString(cursor.getColumnIndex(BookDataSheet.DataTable.COLUMN_NAME_COURSESFULLNAME)));
-            institutions.setText("Universities: "+ cursor.getString(cursor.getColumnIndex(BookDataSheet.DataTable.COLUMN_NAME_INSTITUTIONS)));
+            String coursesString = cursor.getString(cursor.getColumnIndex(BookDataSheet.DataTable.COLUMN_NAME_COURSES)).replace("[", "");
+            coursesString = coursesString.replace("]", "");
+            courses.setText("Courses: "+ coursesString);
+
+            String coursesFullString = cursor.getString(cursor.getColumnIndex(BookDataSheet.DataTable.COLUMN_NAME_COURSESFULLNAME)).replace("[","");
+            coursesFullString = coursesFullString.replace("]","");
+            coursesFull.setText(coursesFullString);
+
+            String institutionsString = cursor.getString(cursor.getColumnIndex(BookDataSheet.DataTable.COLUMN_NAME_INSTITUTIONS)).replace("[","");
+            institutionsString = institutionsString.replace("]","");
+            institutions.setText("Universities: "+ institutionsString);
         }
         else{
             courses.setText("No courses found");

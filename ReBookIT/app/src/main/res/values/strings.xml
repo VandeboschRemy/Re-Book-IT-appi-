@@ -3,4 +3,7 @@
     <string name="search_action">Search</string>
     <string name="search_hint">Search the book you want</string>
     <string name="nothing_found">Nothing found</string>
+    <string name="but_button">Buy the book</string>
+    <string name="row_id_key" translatable="false">ROW_ID</string>
+    <string name="query_key" translatable="false">QUERY</string>
 </resources>
