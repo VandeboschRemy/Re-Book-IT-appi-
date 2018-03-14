@@ -140,8 +140,12 @@ public class DetailActivity extends AppCompatActivity{
 
         @Override
         protected void onPostExecute(Bitmap bitmap){
-            Log.i("DetailActivity", "image loaded");
-            bookImage.setImageBitmap(bitmap);
+            if(bitmap == null) return;
+            else{
+                Log.i("DetailActivity", "image loaded");
+                bookImage.setImageBitmap(bitmap);
+            }
+
         }
     }
 }
