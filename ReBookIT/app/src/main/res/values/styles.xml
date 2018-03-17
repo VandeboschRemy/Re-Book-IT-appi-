@@ -10,6 +10,7 @@
         <item name="android:itemBackground">@color/darkbackground</item>
         <item name="android:textSize">15sp</item>
         <item name="android:colorBackground">@color/darkbackground</item>
+        <item name="android:homeAsUpIndicator">@drawable/ic_menu_home_tinted</item>
     </style>
 
 </resources>

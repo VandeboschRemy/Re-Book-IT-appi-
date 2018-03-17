@@ -47,7 +47,7 @@ public class DatabaseUtils {
         helper = new BookDataSheetDBHelper(context);
         db = helper.getReadableDatabase();
         Log.i("DataBaseUtils", "read data from database");
-        return db.query(BookDataSheet.DataTable.TABLE_NAME, null, null, null, null, null, null);
+        return sortByDate();
     }
 
     public static Cursor getCursorFromDBySearch(String searchterm){
@@ -59,19 +59,31 @@ public class DatabaseUtils {
     }
 
 
-    public String sortByDate(){
+    public static Cursor sortByDate(){
+        return db.query(BookDataSheet.DataTable.TABLE_NAME, null, null, null, null, null, BookDataSheet.DataTable.COLUMN_NAME_CREATEDAT+" DESC");
+    }
+
+    public static Cursor sortByPrice(Order order){
+        if(order.equals(Order.ASC)){
+            return db.query(BookDataSheet.DataTable.TABLE_NAME, null, null, null, null, null, BookDataSheet.DataTable.COLUMN_NAME_PRICE+" ASC");
+        }
+        else if(order.equals(Order.DESC)){
+            return db.query(BookDataSheet.DataTable.TABLE_NAME, null, null, null, null, null, BookDataSheet.DataTable.COLUMN_NAME_PRICE+" DESC");
+        }
         return null;
     }
 
-    public String sortByPrice(){
+    public static Cursor sortByQuality(Order order){
+        if(order.equals(Order.ASC)){
+            return db.query(BookDataSheet.DataTable.TABLE_NAME, null, null, null, null, null, BookDataSheet.DataTable.COLUMN_NAME_QUALITY+" ASC");
+        }
+        else if(order.equals(Order.DESC)){
+            return db.query(BookDataSheet.DataTable.TABLE_NAME, null, null, null, null, null, BookDataSheet.DataTable.COLUMN_NAME_QUALITY+" DESC");
+        }
         return null;
     }
 
-    public String sortByQuality(){
-        return null;
-    }
-
-    public String sortByTitle(){
-        return null;
+    public static Cursor sortByTitle(){
+        return db.query(BookDataSheet.DataTable.TABLE_NAME, null, null, null, null, null, BookDataSheet.DataTable.COLUMN_NAME_TITLE+" ASC");
     }
 }

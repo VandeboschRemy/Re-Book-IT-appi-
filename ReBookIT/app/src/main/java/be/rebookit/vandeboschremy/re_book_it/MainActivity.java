@@ -35,10 +35,14 @@ public class MainActivity extends AppCompatActivity {
     private static boolean startedFlag;
 
     @Override
+    /**
+     * The method that is called when this activity is created
+     */
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        //check is there is a query saved from last time
         if(savedInstanceState != null && savedInstanceState.containsKey(this.getString(R.string.query_key))){
             query = savedInstanceState.getString(this.getString(R.string.query_key));
         }
@@ -101,7 +105,7 @@ public class MainActivity extends AppCompatActivity {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.main, menu);
 
-        SearchView searchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
+        final SearchView searchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -118,6 +122,7 @@ public class MainActivity extends AppCompatActivity {
         menu.findItem(R.id.action_search).setOnActionExpandListener(new MenuItem.OnActionExpandListener() {
             @Override
             public boolean onMenuItemActionExpand(MenuItem item) {
+                searchView.setIconified(false);
                 return true;
             }
 

@@ -29,7 +29,7 @@ public class DetailActivity extends AppCompatActivity{
     private int pos;
     private ImageView bookImage;
     private Cursor cursor;
-    private TextView title,subtitle,authors,edition,courses,coursesFull,isbn,institutions,price,count,quality;
+    private TextView title,subtitle,authors,edition,courses,isbn,institutions,price,count,quality;
     private Button buyButton;
 
     public void onCreate(Bundle savedInstanceState){
@@ -58,7 +58,6 @@ public class DetailActivity extends AppCompatActivity{
         authors = (TextView) findViewById(R.id.tv_authors);
         edition = (TextView) findViewById(R.id.tv_edition);
         courses = (TextView) findViewById(R.id.tv_courses);
-        coursesFull = (TextView) findViewById(R.id.tv_courses_full);
         isbn = (TextView) findViewById(R.id.tv_ISBN);
         institutions = (TextView) findViewById(R.id.tv_institutions);
         price = (TextView) findViewById(R.id.tv_price);
@@ -89,24 +88,23 @@ public class DetailActivity extends AppCompatActivity{
         else{
             subtitle.setText("No subtitle found");
         }
-        authors.setText("Authors: "+ cursor.getString(cursor.getColumnIndex(BookDataSheet.DataTable.COLUMN_NAME_AUTHORS)));
+
+        String authorString = cursor.getString(cursor.getColumnIndex(BookDataSheet.DataTable.COLUMN_NAME_AUTHORS));
+        authorString = authorString.replace("[","").replace("]","");
+        authors.setText("Authors: "+ authorString);
+
         edition.setText(cursor.getString(cursor.getColumnIndex(BookDataSheet.DataTable.COLUMN_NAME_EDITION)));
         if(!cursor.getString(cursor.getColumnIndex(BookDataSheet.DataTable.COLUMN_NAME_COURSES)).equals("[]")){
-            String coursesString = cursor.getString(cursor.getColumnIndex(BookDataSheet.DataTable.COLUMN_NAME_COURSES)).replace("[", "");
-            coursesString = coursesString.replace("]", "");
+            String coursesString = cursor.getString(cursor.getColumnIndex(BookDataSheet.DataTable.COLUMN_NAME_COURSES));
+            coursesString = coursesString.replace("]", "").replace("[", "");
             courses.setText("Courses: "+ coursesString);
 
-            String coursesFullString = cursor.getString(cursor.getColumnIndex(BookDataSheet.DataTable.COLUMN_NAME_COURSESFULLNAME)).replace("[","");
-            coursesFullString = coursesFullString.replace("]","");
-            coursesFull.setText(coursesFullString);
-
-            String institutionsString = cursor.getString(cursor.getColumnIndex(BookDataSheet.DataTable.COLUMN_NAME_INSTITUTIONS)).replace("[","");
-            institutionsString = institutionsString.replace("]","");
+            String institutionsString = cursor.getString(cursor.getColumnIndex(BookDataSheet.DataTable.COLUMN_NAME_INSTITUTIONS));
+            institutionsString = institutionsString.replace("]","").replace("[","");
             institutions.setText("Universities: "+ institutionsString);
         }
         else{
             courses.setText("No courses found");
-            coursesFull.setHeight(0);
             institutions.setText("No universities found");
         }
         isbn.setText("ISBN: "+ cursor.getString(cursor.getColumnIndex(BookDataSheet.DataTable.COLUMN_NAME_ISBN)));
