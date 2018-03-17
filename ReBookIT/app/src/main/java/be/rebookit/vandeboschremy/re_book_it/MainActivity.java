@@ -13,7 +13,11 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.SearchView;
+import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONArray;
@@ -25,9 +29,10 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
 
     private String json;
+    private Spinner spinner;
     private RecyclerView mBookList;
     private BookListAdapter mAdapter;
     private Cursor mCursor;
@@ -46,13 +51,19 @@ public class MainActivity extends AppCompatActivity {
         if(savedInstanceState != null && savedInstanceState.containsKey(this.getString(R.string.query_key))){
             query = savedInstanceState.getString(this.getString(R.string.query_key));
         }
+        spinner = (Spinner) findViewById(R.id.spinner);
+        spinner.setOnItemSelectedListener(this);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.searchChoice, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(R.layout.spinner_item);
+        spinner.setAdapter(adapter);
 
         mBookList = (RecyclerView) findViewById(R.id.rv);
         mBookList.setLayoutManager(new LinearLayoutManager(this));
+
         query = null;
 
         if(DatabaseUtils.getCursorFromDB(MainActivity.this) != null){
-            showData(DatabaseUtils.getCursorFromDB(MainActivity.this));
+            showData(DatabaseUtils.getCursorFromDB(MainActivity.this), "title");
         }
         if(!startedFlag) new Downloader().execute("https://rebookit.be/search");
         startedFlag = true;
@@ -109,7 +120,8 @@ public class MainActivity extends AppCompatActivity {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                showData(DatabaseUtils.getCursorFromDBySearch(query));
+                showData(DatabaseUtils.getCursorFromDBySearch(query, "title"), "title");
+                spinner.setVisibility(View.VISIBLE);
                 MainActivity.this.query = query;
                 return true;
             }
@@ -128,7 +140,8 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public boolean onMenuItemActionCollapse(MenuItem item) {
-                showData(DatabaseUtils.getCursorFromDB(MainActivity.this));
+                spinner.setVisibility(View.GONE);
+                showData(DatabaseUtils.getCursorFromDB(MainActivity.this), "title");
                 MainActivity.this.query = null;
                 return true;
             }
@@ -140,10 +153,10 @@ public class MainActivity extends AppCompatActivity {
         return query;
     }
 
-    public void showData(Cursor cursor){
-        mBookList.setVisibility(View.VISIBLE);
+    public void showData(Cursor cursor, String searchBy){
         mCursor = cursor;
-        mAdapter = new BookListAdapter(MainActivity.this, mCursor);
+        mBookList.setVisibility(View.VISIBLE);
+        mAdapter = new BookListAdapter(MainActivity.this, mCursor, searchBy);
         mBookList.setAdapter(mAdapter);
     }
 
@@ -151,6 +164,17 @@ public class MainActivity extends AppCompatActivity {
     protected void onSaveInstanceState(Bundle outState){
         super.onSaveInstanceState(outState);
         outState.putString(this.getString(R.string.query_key), query);
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        String searchBy = parent.getItemAtPosition(position).toString();
+        showData(DatabaseUtils.getCursorFromDBySearch(query, searchBy), searchBy);
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+
     }
 
     private class Downloader extends AsyncTask<String,Void,Void> {
@@ -196,7 +220,7 @@ public class MainActivity extends AppCompatActivity {
             if(json != null){
                 Toast toast = Toast.makeText(MainActivity.this, "Content has been updated", Toast.LENGTH_SHORT);
                 toast.show();
-                showData(DatabaseUtils.getCursorFromDB(MainActivity.this));
+                showData(DatabaseUtils.getCursorFromDB(MainActivity.this), "title");
             }
             else{
                 Toast toast = Toast.makeText(MainActivity.this, "Failed updating content", Toast.LENGTH_SHORT);

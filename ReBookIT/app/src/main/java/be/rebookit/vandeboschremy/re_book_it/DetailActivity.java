@@ -42,8 +42,9 @@ public class DetailActivity extends AppCompatActivity{
         }
         if(intent.hasExtra(this.getString(R.string.query_key))){
             String query = intent.getStringExtra(this.getString(R.string.query_key));
+            String searchBy = intent.getStringExtra(this.getString(R.string.searhedBy_key));
             if(query != null){
-                cursor = DatabaseUtils.getCursorFromDBySearch(query);
+                cursor = DatabaseUtils.getCursorFromDBySearch(query, searchBy);
             }
             else{
                 cursor = DatabaseUtils.getCursorFromDB(this);

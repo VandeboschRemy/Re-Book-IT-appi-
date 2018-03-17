@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.provider.ContactsContract;
 import android.util.Log;
 
 /**
@@ -50,9 +51,19 @@ public class DatabaseUtils {
         return sortByDate();
     }
 
-    public static Cursor getCursorFromDBySearch(String searchterm){
+    public static Cursor getCursorFromDBySearch(String searchterm, String searchBy){
         searchterm = "%" + searchterm + "%";
-        String where = BookDataSheet.DataTable.COLUMN_NAME_TITLE + " LIKE ?";
+        String where;
+        if(searchBy.equals("title")){
+            where = BookDataSheet.DataTable.COLUMN_NAME_TITLE + " LIKE ?";
+        }
+        else if(searchBy.equals("author")){
+            where = BookDataSheet.DataTable.COLUMN_NAME_AUTHORS + " LIKE ?";
+        }
+        else if(searchBy.equals("course")){
+            where = BookDataSheet.DataTable.COLUMN_NAME_COURSES + " LIKE ?";
+        }
+        else where = null;
         String[]whereArgs = new String[]{searchterm};
 
         return db.query(BookDataSheet.DataTable.TABLE_NAME, null, where, whereArgs, null, null, null);

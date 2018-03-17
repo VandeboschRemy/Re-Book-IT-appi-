@@ -6,4 +6,13 @@
     <string name="but_button">Buy the book</string>
     <string name="row_id_key" translatable="false">ROW_ID</string>
     <string name="query_key" translatable="false">QUERY</string>
+    <string name="title_search">Search by title</string>
+    <string name="author_search">Search by author</string>
+    <string name="courses_search">Search by course</string>
+    <string name="searhedBy_key">SEARCHEDBY</string>
+    <string-array name="searchChoice">
+        <item>title</item>
+        <item>author</item>
+        <item>course</item>
+    </string-array>
 </resources>
