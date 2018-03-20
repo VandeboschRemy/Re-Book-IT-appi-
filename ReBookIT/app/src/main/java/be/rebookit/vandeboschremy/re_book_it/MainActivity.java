@@ -17,7 +17,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.SearchView;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONArray;
@@ -51,20 +50,24 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         if(savedInstanceState != null && savedInstanceState.containsKey(this.getString(R.string.query_key))){
             query = savedInstanceState.getString(this.getString(R.string.query_key));
         }
+        //create the spinner to provide a choice when searching
         spinner = (Spinner) findViewById(R.id.spinner);
         spinner.setOnItemSelectedListener(this);
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.searchChoice, android.R.layout.simple_spinner_item);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.searchChoice, R.layout.spinner_item);
         adapter.setDropDownViewResource(R.layout.spinner_item);
         spinner.setAdapter(adapter);
 
+        //create the recyclerview
         mBookList = (RecyclerView) findViewById(R.id.rv);
         mBookList.setLayoutManager(new LinearLayoutManager(this));
 
         query = null;
 
+        //check if there is already a database. If so, load it for the user to see
         if(DatabaseUtils.getCursorFromDB(MainActivity.this) != null){
-            showData(DatabaseUtils.getCursorFromDB(MainActivity.this), "title");
+            showData(DatabaseUtils.getCursorFromDB(MainActivity.this), "Title");
         }
+        //perform the call the to website only when the application is starting up
         if(!startedFlag) new Downloader().execute("https://rebookit.be/search");
         startedFlag = true;
     }
@@ -74,6 +77,11 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         super.onDestroy();
     }
 
+    /**
+     *Build a JSON cursor from a string.
+     * @param response The string from which to build a cursor.
+     * @return A cursor of type Cursor.
+     */
     private Cursor getJSONCursor(String response){
         try{
             JSONArray array = new JSONArray(response);
@@ -86,14 +94,23 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         return null;
     }
 
+    /**
+     * Because the string returned from the website is not perfect JSON format,
+     * convert it to the right format
+     * @param text The returned string from the website.
+     * @return A String in JSON format.
+     */
     public String convertToRightFormat(String text){
         String jsonFormat;
         String correctJsonFormat = "";
 
+        //find the start and end of the book list.
         int start = text.indexOf("[{");
         int end = text.indexOf("}]")+("}]").length();
-        if(start == -1 || end == 1) return null;
+        if(start == -1 || end == -1) return null;
         jsonFormat = text.substring(start, end);
+
+        //check for arrays that contain only one element and remove the brackets.
         for(String subString : jsonFormat.split(":")){
             if(subString.indexOf("[") != -1 &&
                     subString.indexOf("]") != -1 &&
@@ -111,17 +128,28 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         return jsonFormat;
     }
 
+    /**
+     * Create the options menu.
+     * @param menu The menu to create.
+     * @return A boolean to notify if the creation was successful
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu){
+        //inflate the menu layout
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.main, menu);
 
+        //set an onQueryTextListener to the searchview
         final SearchView searchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                showData(DatabaseUtils.getCursorFromDBySearch(query, "title"), "title");
+                showData(DatabaseUtils.getCursorFromDBySearch(query, "Title"), "Title");
+                //show the spinner when a query is submitted
                 spinner.setVisibility(View.VISIBLE);
+                spinner.setSelection(0);
+                //clear the focus so the keyboard disappears
+                searchView.clearFocus();
                 MainActivity.this.query = query;
                 return true;
             }
@@ -131,17 +159,20 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 return false;
             }
         });
+        //set an onActionExpandListener to the searchview
         menu.findItem(R.id.action_search).setOnActionExpandListener(new MenuItem.OnActionExpandListener() {
             @Override
             public boolean onMenuItemActionExpand(MenuItem item) {
+                //open the keyboard when the searchview is expanded
                 searchView.setIconified(false);
                 return true;
             }
 
             @Override
             public boolean onMenuItemActionCollapse(MenuItem item) {
+                //make the spinner disappear and load the previous list
                 spinner.setVisibility(View.GONE);
-                showData(DatabaseUtils.getCursorFromDB(MainActivity.this), "title");
+                showData(DatabaseUtils.getCursorFromDB(MainActivity.this), "Title");
                 MainActivity.this.query = null;
                 return true;
             }
@@ -149,10 +180,19 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         return true;
     }
 
+    /**
+     * Return the query that was submitted
+     * @return The query, null if query is empty
+     */
     public static String getQuery(){
         return query;
     }
 
+    /**
+     * display the book list to the user
+     * @param cursor The cursor that contains the list to be displayed
+     * @param searchBy The type the user searched the books by, Title, Author or Course
+     */
     public void showData(Cursor cursor, String searchBy){
         mCursor = cursor;
         mBookList.setVisibility(View.VISIBLE);
@@ -166,9 +206,18 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         outState.putString(this.getString(R.string.query_key), query);
     }
 
+    /**
+     * Triggers when the user selected an item from the spinner.
+     * @param parent
+     * @param view
+     * @param position The position of the element that was selected.
+     * @param id
+     */
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        //Extract the selected item from the spinner
         String searchBy = parent.getItemAtPosition(position).toString();
+        //apply the filter tot the displayed data
         showData(DatabaseUtils.getCursorFromDBySearch(query, searchBy), searchBy);
     }
 
@@ -214,13 +263,18 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             }
             return null;
         }
+
+        /**
+         * Show a toast to notify the user that the content was updated or that the update failed
+         * @param result The result of the download, in this case Void.
+         */
         @Override
         protected void onPostExecute(Void result){
 
             if(json != null){
                 Toast toast = Toast.makeText(MainActivity.this, "Content has been updated", Toast.LENGTH_SHORT);
                 toast.show();
-                showData(DatabaseUtils.getCursorFromDB(MainActivity.this), "title");
+                showData(DatabaseUtils.getCursorFromDB(MainActivity.this), "Title");
             }
             else{
                 Toast toast = Toast.makeText(MainActivity.this, "Failed updating content", Toast.LENGTH_SHORT);

@@ -11,8 +11,8 @@
     <string name="courses_search">Search by course</string>
     <string name="searhedBy_key">SEARCHEDBY</string>
     <string-array name="searchChoice">
-        <item>title</item>
-        <item>author</item>
-        <item>course</item>
+        <item>Title</item>
+        <item>Author</item>
+        <item>Course</item>
     </string-array>
 </resources>

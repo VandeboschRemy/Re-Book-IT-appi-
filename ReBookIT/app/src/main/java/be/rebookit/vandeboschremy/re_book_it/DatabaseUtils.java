@@ -54,13 +54,13 @@ public class DatabaseUtils {
     public static Cursor getCursorFromDBySearch(String searchterm, String searchBy){
         searchterm = "%" + searchterm + "%";
         String where;
-        if(searchBy.equals("title")){
+        if(searchBy.equals("Title")){
             where = BookDataSheet.DataTable.COLUMN_NAME_TITLE + " LIKE ?";
         }
-        else if(searchBy.equals("author")){
+        else if(searchBy.equals("Author")){
             where = BookDataSheet.DataTable.COLUMN_NAME_AUTHORS + " LIKE ?";
         }
-        else if(searchBy.equals("course")){
+        else if(searchBy.equals("Course")){
             where = BookDataSheet.DataTable.COLUMN_NAME_COURSES + " LIKE ?";
         }
         else where = null;

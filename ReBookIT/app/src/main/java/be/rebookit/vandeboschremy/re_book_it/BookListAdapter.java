@@ -51,12 +51,15 @@ public class BookListAdapter extends RecyclerView.Adapter<BookListAdapter.BookLi
         holder.tv_priceTag.setText(price+" €");
 
         if(quality <= 30){
-            holder.qualitytag.setImageResource(R.drawable.red_smiley);
-        }
-        else if(quality > 30 && quality <= 50){
             holder.qualitytag.setImageResource(R.drawable.yellow_smiley);
         }
-        else if(quality > 50){
+        else if(quality > 30 && quality <= 50){
+            holder.qualitytag.setImageResource(R.drawable.grey_smiley);
+        }
+        else if(quality > 50 && quality <= 70){
+            holder.qualitytag.setImageResource(R.drawable.red_smiley);
+        }
+        else if(quality >= 80){
             holder.qualitytag.setImageResource(R.drawable.green_smiley);
         }
 

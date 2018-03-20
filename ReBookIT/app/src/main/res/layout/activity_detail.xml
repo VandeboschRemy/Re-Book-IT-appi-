@@ -195,11 +195,21 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/tv_quality"
-                android:layout_toRightOf="@id/tv_count"
-                android:layout_below="@id/tv_ISBN"
+                android:layout_toRightOf="@id/bookImage"
+                android:layout_below="@id/tv_count"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="10dp">
             </TextView>
+
+            <View
+                android:layout_width="wrap_content"
+                android:layout_height="1dp"
+                android:background="#dadada"
+                android:layout_marginLeft="208dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginTop="5dp"
+                android:layout_below="@id/tv_quality">
+            </View>
 
             <Button
                 android:layout_width="match_parent"

@@ -7,4 +7,5 @@
     <color name="textcolor">#FCFDFE</color>
     <color name="green">#14c92c</color>
     <color name="darkGreen">#0e8b1e</color>
+    <color name="spinner_background">#67411A</color>
 </resources>
