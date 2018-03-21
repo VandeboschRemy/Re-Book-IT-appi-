@@ -15,4 +15,24 @@
         <item>Author</item>
         <item>Course</item>
     </string-array>
+    <string name="sort_by_key">Sort by</string>
+    <string-array name="sortBy">
+        <item>Most recent</item>
+        <item>Cheap first</item>
+        <item>Expensive first</item>
+        <item>Alphabetical</item>
+        <item>Ascending quality</item>
+        <item>Descending quality</item>
+    </string-array>
+    <string-array name="sortByValues">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+    </string-array>
+    <string name="sortByDefault">0</string>
+    <string name="settings_action">Settings</string>
+    <string name="contact_action">Contact</string>
 </resources>

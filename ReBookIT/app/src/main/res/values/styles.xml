@@ -11,6 +11,9 @@
         <item name="android:textSize">15sp</item>
         <item name="android:colorBackground">@color/darkbackground</item>
         <item name="android:homeAsUpIndicator">@drawable/ic_menu_home_tinted</item>
+        <item name="preferenceTheme">@style/PreferenceThemeOverlay</item>
+        <item name="android:textColorSecondary">@color/textcolor</item>
+        <item name="android:textColorPrimary">@color/textcolor</item>
     </style>
 
 </resources>

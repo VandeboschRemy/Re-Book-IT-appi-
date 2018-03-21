@@ -1,9 +1,12 @@
 package be.rebookit.vandeboschremy.re_book_it;
 
 
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -28,14 +31,15 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-public class MainActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
+public class MainActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener , SharedPreferences.OnSharedPreferenceChangeListener{
 
     private String json;
     private Spinner spinner;
     private RecyclerView mBookList;
     private BookListAdapter mAdapter;
     private Cursor mCursor;
-    private static String query;
+    private static String query, searchBy;
+    private SharedPreferences prefs;
     private static boolean startedFlag;
 
     @Override
@@ -47,9 +51,17 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         setContentView(R.layout.activity_main);
 
         //check is there is a query saved from last time
+        query = null;
         if(savedInstanceState != null && savedInstanceState.containsKey(this.getString(R.string.query_key))){
             query = savedInstanceState.getString(this.getString(R.string.query_key));
         }
+
+        //check if there is a searchBy preference from last time
+        searchBy = "Title";
+        if(savedInstanceState != null && savedInstanceState.containsKey(this.getString(R.string.searhedBy_key))){
+            searchBy = savedInstanceState.getString(this.getString(R.string.searhedBy_key));
+        }
+
         //create the spinner to provide a choice when searching
         spinner = (Spinner) findViewById(R.id.spinner);
         spinner.setOnItemSelectedListener(this);
@@ -61,11 +73,17 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         mBookList = (RecyclerView) findViewById(R.id.rv);
         mBookList.setLayoutManager(new LinearLayoutManager(this));
 
-        query = null;
+        //register the preferenceChangeListener
+        prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        prefs.registerOnSharedPreferenceChangeListener(this);
 
         //check if there is already a database. If so, load it for the user to see
         if(DatabaseUtils.getCursorFromDB(MainActivity.this) != null){
-            showData(DatabaseUtils.getCursorFromDB(MainActivity.this), "Title");
+            if(query != null){
+                spinner.setVisibility(View.VISIBLE);
+                showData(DatabaseUtils.getCursorFromDBySearch(query, searchBy));
+            }
+            else showData(DatabaseUtils.getCursorFromDB(MainActivity.this));
         }
         //perform the call the to website only when the application is starting up
         if(!startedFlag) new Downloader().execute("https://rebookit.be/search");
@@ -75,6 +93,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     @Override
     protected void onDestroy(){
         super.onDestroy();
+        prefs.unregisterOnSharedPreferenceChangeListener(this);
     }
 
     /**
@@ -144,10 +163,9 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                showData(DatabaseUtils.getCursorFromDBySearch(query, "Title"), "Title");
+                showData(DatabaseUtils.getCursorFromDBySearch(query, searchBy));
                 //show the spinner when a query is submitted
                 spinner.setVisibility(View.VISIBLE);
-                spinner.setSelection(0);
                 //clear the focus so the keyboard disappears
                 searchView.clearFocus();
                 MainActivity.this.query = query;
@@ -172,12 +190,21 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             public boolean onMenuItemActionCollapse(MenuItem item) {
                 //make the spinner disappear and load the previous list
                 spinner.setVisibility(View.GONE);
-                showData(DatabaseUtils.getCursorFromDB(MainActivity.this), "Title");
+                showData(DatabaseUtils.getCursorFromDB(MainActivity.this));
                 MainActivity.this.query = null;
                 return true;
             }
         });
         return true;
+    }
+
+    public void loadSettings(MenuItem item){
+        Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
+        MainActivity.this.startActivity(intent);
+    }
+
+    public void loadContact(MenuItem item){
+        //TO-DO implement contact activity
     }
 
     /**
@@ -188,22 +215,28 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         return query;
     }
 
+    public static String getSearchBy(){
+        return searchBy;
+    }
+
     /**
      * display the book list to the user
      * @param cursor The cursor that contains the list to be displayed
-     * @param searchBy The type the user searched the books by, Title, Author or Course
      */
-    public void showData(Cursor cursor, String searchBy){
+    public void showData(Cursor cursor){
         mCursor = cursor;
         mBookList.setVisibility(View.VISIBLE);
-        mAdapter = new BookListAdapter(MainActivity.this, mCursor, searchBy);
+        mAdapter = new BookListAdapter(MainActivity.this, mCursor);
         mBookList.setAdapter(mAdapter);
     }
+
+
 
     @Override
     protected void onSaveInstanceState(Bundle outState){
         super.onSaveInstanceState(outState);
         outState.putString(this.getString(R.string.query_key), query);
+        outState.putString(this.getString(R.string.searhedBy_key), searchBy);
     }
 
     /**
@@ -216,14 +249,19 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         //Extract the selected item from the spinner
-        String searchBy = parent.getItemAtPosition(position).toString();
+        searchBy = parent.getItemAtPosition(position).toString();
         //apply the filter tot the displayed data
-        showData(DatabaseUtils.getCursorFromDBySearch(query, searchBy), searchBy);
+        showData(DatabaseUtils.getCursorFromDBySearch(query, searchBy));
     }
 
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
 
+    }
+
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        showData(DatabaseUtils.getCursorFromDB(MainActivity.this));
     }
 
     private class Downloader extends AsyncTask<String,Void,Void> {
@@ -274,7 +312,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             if(json != null){
                 Toast toast = Toast.makeText(MainActivity.this, "Content has been updated", Toast.LENGTH_SHORT);
                 toast.show();
-                showData(DatabaseUtils.getCursorFromDB(MainActivity.this), "Title");
+                showData(DatabaseUtils.getCursorFromDB(MainActivity.this));
             }
             else{
                 Toast toast = Toast.makeText(MainActivity.this, "Failed updating content", Toast.LENGTH_SHORT);

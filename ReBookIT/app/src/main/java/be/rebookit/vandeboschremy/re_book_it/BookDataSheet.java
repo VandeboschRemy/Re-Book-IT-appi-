@@ -10,6 +10,7 @@ public final class BookDataSheet {
 
     private BookDataSheet(){}
 
+    //create contruct of data table
     public static class DataTable implements BaseColumns {
         public static final String TABLE_NAME = "bookData";
         public static final String COLUMN_NAME_TITLE ="title";

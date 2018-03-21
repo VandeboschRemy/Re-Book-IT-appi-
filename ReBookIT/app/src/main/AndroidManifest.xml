@@ -26,6 +26,14 @@
                 android:value=".MainActivity">
             </meta-data>
         </activity>
+        <activity
+            android:label="@string/settings_action"
+            android:name=".SettingsActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity">
+            </meta-data>
+        </activity>
     </application>
 
 </manifest>

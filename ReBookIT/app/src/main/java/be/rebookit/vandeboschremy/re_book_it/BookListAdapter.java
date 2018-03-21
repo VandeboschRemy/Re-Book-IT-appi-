@@ -21,12 +21,10 @@ public class BookListAdapter extends RecyclerView.Adapter<BookListAdapter.BookLi
 
     private Context mContext;
     private Cursor mCursor;
-    private String searchedBy;
 
-    public BookListAdapter(Context context, Cursor cursor, String searchedBy){
+    public BookListAdapter(Context context, Cursor cursor){
         this.mContext = context;
         this.mCursor = cursor;
-        this.searchedBy = searchedBy;
         Log.i("BookListAdapter", String.valueOf(mCursor.getCount()));
     }
 
@@ -93,7 +91,7 @@ public class BookListAdapter extends RecyclerView.Adapter<BookListAdapter.BookLi
             Intent intent = new Intent(mContext, DetailActivity.class);
             intent.putExtra(mContext.getString(R.string.row_id_key), pos);
             intent.putExtra(mContext.getString(R.string.query_key), MainActivity.getQuery());
-            intent.putExtra(mContext.getString(R.string.searhedBy_key), searchedBy);
+            intent.putExtra(mContext.getString(R.string.searhedBy_key), MainActivity.getSearchBy());
             mContext.startActivity(intent);
         }
     }

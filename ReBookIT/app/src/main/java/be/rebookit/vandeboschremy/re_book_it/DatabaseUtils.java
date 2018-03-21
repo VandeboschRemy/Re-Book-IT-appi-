@@ -2,8 +2,10 @@ package be.rebookit.vandeboschremy.re_book_it;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
 import android.util.Log;
 
@@ -15,6 +17,7 @@ public class DatabaseUtils {
 
     private static SQLiteDatabase db;
     private static BookDataSheetDBHelper helper;
+    private static String sortBy;
 
     public static void saveToDB(Context context, Cursor cursor){
         helper = new BookDataSheetDBHelper(context);
@@ -47,8 +50,30 @@ public class DatabaseUtils {
     public static Cursor getCursorFromDB(Context context){
         helper = new BookDataSheetDBHelper(context);
         db = helper.getReadableDatabase();
-        Log.i("DataBaseUtils", "read data from database");
-        return sortByDate();
+
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        sortBy = prefs.getString(context.getString(R.string.sort_by_key), "0");
+        Log.i("Database", sortBy);
+
+        if(sortBy.equals("0")){
+            return sortByDate();
+        }
+        else if(sortBy.equals("1")){
+            return sortByPrice(Order.ASC);
+        }
+        else if(sortBy.equals("2")){
+            return sortByPrice(Order.DESC);
+        }
+        else if(sortBy.equals("3")){
+            return sortByTitle();
+        }
+        else if(sortBy.equals("4")){
+            return sortByQuality(Order.ASC);
+        }
+        else if(sortBy.equals("5")){
+            return sortByQuality(Order.DESC);
+        }
+        else return sortByDate();
     }
 
     public static Cursor getCursorFromDBySearch(String searchterm, String searchBy){
