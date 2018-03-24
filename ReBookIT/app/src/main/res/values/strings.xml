@@ -10,6 +10,11 @@
     <string name="author_search">Search by author</string>
     <string name="courses_search">Search by course</string>
     <string name="searhedBy_key">SEARCHEDBY</string>
+    <string name="search_query_key">SEARCHQUERYKEY</string>
+    <string name="loading">Please wait while content is loading...</string>
+    <string name="opening_hours_heading">OPENING HOURS</string>
+    <string name="adress_heading">ADRESS</string>
+    <string name="adress">Agoralaan Gebouw D, Kantoor B111\n3590 Diepenbeek, Vlaanderen</string>
     <string-array name="searchChoice">
         <item>Title</item>
         <item>Author</item>

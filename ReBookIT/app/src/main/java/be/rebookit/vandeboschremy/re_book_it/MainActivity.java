@@ -86,7 +86,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             else showData(DatabaseUtils.getCursorFromDB(MainActivity.this));
         }
         //perform the call the to website only when the application is starting up
-        if(!startedFlag) new Downloader().execute("https://rebookit.be/search");
+        if(!startedFlag) new Downloader().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "https://rebookit.be/search");
         startedFlag = true;
     }
 
@@ -204,7 +204,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     }
 
     public void loadContact(MenuItem item){
-        //TO-DO implement contact activity
+        Intent intent = new Intent(MainActivity.this, ContactAcitivity.class);
+        MainActivity.this.startActivity(intent);
     }
 
     /**

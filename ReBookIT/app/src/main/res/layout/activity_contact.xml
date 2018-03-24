@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools">
+    tools:context="be.rebookit.vandeboschremy.re_book_it.ContactAcitivity>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/scv">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/opening_hours_heading"
+                android:gravity="center_horizontal"
+                android:layout_marginBottom="5dp"
+                android:layout_marginLeft="8dp"
+                android:id="@+id/opening_hours_heading">
+            </TextView>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#dadada"
+                android:layout_marginHorizontal="8dp"
+                android:layout_below="@id/opening_hours_heading">
+            </View>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/tv_opening_hours"
+                android:text="@string/loading"
+                android:layout_marginVertical="5dp"
+                android:layout_marginLeft="8dp"
+                android:layout_below="@id/opening_hours_heading">
+            </TextView>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#dadada"
+                android:layout_marginHorizontal="8dp"
+                android:layout_below="@id/tv_opening_hours">
+            </View>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/adress_heading"
+                android:text="@string/adress_heading"
+                android:gravity="center_horizontal"
+                android:layout_below="@id/tv_opening_hours"
+                android:layout_marginVertical="5dp"
+                android:layout_marginLeft="8dp">
+            </TextView>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#dadada"
+                android:layout_marginHorizontal="8dp"
+                android:layout_below="@id/adress_heading">
+            </View>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/adress_detail"
+                android:text="@string/adress"
+                android:layout_below="@id/adress_heading"
+                android:layout_marginVertical="5dp"
+                android:layout_marginLeft="8dp">
+            </TextView>
+
+            <fragment
+                android:layout_width="match_parent"
+                android:layout_height="350dp"
+                android:id="@+id/map"
+                android:name="com.google.android.gms.maps.SupportMapFragment"
+                android:layout_below="@id/adress_detail">
+            </fragment>
+            
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="350dp"
+                android:id="@+id/map_view_overlay"
+                android:layout_below="@id/adress_detail">
+            </View>
+
+        </RelativeLayout>
+    </ScrollView>
+
+</RelativeLayout>

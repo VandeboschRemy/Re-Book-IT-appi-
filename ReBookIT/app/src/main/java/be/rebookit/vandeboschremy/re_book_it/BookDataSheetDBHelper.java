@@ -18,7 +18,7 @@ public class BookDataSheetDBHelper extends SQLiteOpenHelper {
                     BookDataSheet.DataTable.COLUMN_NAME_AUTHORS + " TEXT, " +
                     BookDataSheet.DataTable.COLUMN_NAME_COURSES + " TEXT, " +
                     BookDataSheet.DataTable.COLUMN_NAME_COURSESFULLNAME + " TEXT, " +
-                    BookDataSheet.DataTable.COLUMN_NAME_PRICE + " TEXT, " +
+                    BookDataSheet.DataTable.COLUMN_NAME_PRICE + " FLOAT, " +
                     BookDataSheet.DataTable.COLUMN_NAME_CREATEDAT + " TEXT, " +
                     BookDataSheet.DataTable.COLUMN_NAME_INSTITUTIONS + " TEXT, " +
                     BookDataSheet.DataTable.COLUMN_NAME_IMAGEURL + " TEXT, " +

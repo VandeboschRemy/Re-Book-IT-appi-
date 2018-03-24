@@ -37,7 +37,7 @@ public class DatabaseUtils {
             values.put(BookDataSheet.DataTable.COLUMN_NAME_IMAGEURL, cursor.getString(cursor.getColumnIndex("image_url")));
             values.put(BookDataSheet.DataTable.COLUMN_NAME_INSTITUTIONS, cursor.getString(cursor.getColumnIndex("institutions")));
             values.put(BookDataSheet.DataTable.COLUMN_NAME_SUBTITLE, cursor.getString(cursor.getColumnIndex("subtitle")));
-            values.put(BookDataSheet.DataTable.COLUMN_NAME_PRICE, cursor.getString(cursor.getColumnIndex("price")));
+            values.put(BookDataSheet.DataTable.COLUMN_NAME_PRICE, Float.valueOf(cursor.getString(cursor.getColumnIndex("price"))));
             values.put(BookDataSheet.DataTable.COLUMN_NAME_QUALITY, cursor.getString(cursor.getColumnIndex("quality")));
             values.put(BookDataSheet.DataTable.COLUMN_NAME_ISBN, cursor.getString(cursor.getColumnIndex("isbn")));
 
