@@ -7,8 +7,12 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.app.ShareCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -117,6 +121,32 @@ public class DetailActivity extends AppCompatActivity{
         Log.i("DetailAcitivy", url);
 
         new GetImage().execute("https://rebookit.be/" + url);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu){
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.detail, menu);
+        return true;
+    }
+
+    public void share(MenuItem item){
+        String mimeType = "text/plain";
+        String title = "Share the book with all your friends";
+        String text = "Just found this awesome book:\n"
+                        +this.title.getText() + "\n"
+                        +this.authors.getText() + "\n"
+                        +this.isbn.getText() + "\n"
+                        +this.quality.getText() + "\n"
+                        +"Shared with the Re-Book IT app.";
+        Intent intent = ShareCompat.IntentBuilder.from(this)
+                                                    .setChooserTitle(title)
+                                                    .setType(mimeType)
+                                                    .setText(text)
+                                                    .getIntent();
+        if(intent.resolveActivity(getPackageManager()) != null){
+            startActivity(intent);
+        }
     }
 
     public class GetImage extends AsyncTask<String, Void, Bitmap>{

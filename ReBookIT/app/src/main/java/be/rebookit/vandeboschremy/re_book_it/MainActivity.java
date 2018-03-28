@@ -78,12 +78,16 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         prefs.registerOnSharedPreferenceChangeListener(this);
 
         //check if there is already a database. If so, load it for the user to see
-        if(DatabaseUtils.getCursorFromDB(MainActivity.this) != null){
+        if(DatabaseUtils.getCursorFromDB(MainActivity.this).getCount() != 0){
             if(query != null){
                 spinner.setVisibility(View.VISIBLE);
                 showData(DatabaseUtils.getCursorFromDBySearch(query, searchBy));
             }
             else showData(DatabaseUtils.getCursorFromDB(MainActivity.this));
+        }
+        else{
+            Intent intent = new Intent(this, InfoActivity.class);
+            this.startActivity(intent);
         }
         //perform the call the to website only when the application is starting up
         if(!startedFlag) new Downloader().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "https://rebookit.be/search");
@@ -205,6 +209,11 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
     public void loadContact(MenuItem item){
         Intent intent = new Intent(MainActivity.this, ContactAcitivity.class);
+        MainActivity.this.startActivity(intent);
+    }
+
+    public void loadInfo(MenuItem item){
+        Intent intent = new Intent(MainActivity.this, InfoActivity.class);
         MainActivity.this.startActivity(intent);
     }
 

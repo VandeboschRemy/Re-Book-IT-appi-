@@ -88,6 +88,9 @@ public class DatabaseUtils {
         else if(searchBy.equals("Course")){
             where = BookDataSheet.DataTable.COLUMN_NAME_COURSES + " LIKE ?";
         }
+        else if(searchBy.equals("ISBN")){
+            where = BookDataSheet.DataTable.COLUMN_NAME_ISBN + " LIKE ?";
+        }
         else where = null;
         String[]whereArgs = new String[]{searchterm};
 

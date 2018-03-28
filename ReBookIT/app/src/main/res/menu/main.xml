@@ -26,6 +26,12 @@
                     app:showAsAction="ifRoom"
                     android:onClick="loadContact">
                 </item>
+                <item
+                    android:title="@string/info_label"
+                    android:id="@+id/action_info"
+                    app:showAsAction="always"
+                    android:onClick="loadInfo">
+                </item>
             </menu>
     </item>
 </menu>
