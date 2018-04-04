@@ -2,7 +2,7 @@
     <string name="app_name">Re-Book IT</string>
     <string name="search_action">Search</string>
     <string name="search_hint">Search the book you want</string>
-    <string name="nothing_found">Nothing found</string>
+    <string name="nothing_found">No subtitle found</string>
     <string name="but_button">Buy the book</string>
     <string name="row_id_key" translatable="false">ROW_ID</string>
     <string name="query_key" translatable="false">QUERY</string>
@@ -39,19 +39,30 @@
         <item>5</item>
     </string-array>
     <string name="sortByDefault">0</string>
+    <string name="max_price_key">Max price</string>
     <string name="settings_action">Settings</string>
     <string name="contact_action">Contact</string>
     <string name="info_price_heading">Which price do you pay at Re-Book IT?</string>
     <string name="info_price_and_quality">Books at Re-Book IT have a qualitylabel which also determines the price.
-        The percentage of the quality is also the price wich you pay relative the new price in the campusshop
-    Each book gets it's qualitylabel after a physical inspection by our team.</string>
+        The percentage of the quality is also the price wich you pay relative the new price in the campusshop.
+    Each book gets it\'s qualitylabel after a physical inspection by our team.</string>
     <string name="info_green_smiley">80% or more / unused</string>
     <string name="info_red_smiley">70% / used without notes</string>
     <string name="info_grey_smiley">50% / with notes</string>
     <string name="info_yellow_smiley">30% / with A LOT of notes of just an old edition</string>
     <string name="info_warranty_heading">What warranty is provided at Re-Book IT</string>
     <string name="info_warranty">Every client gets one month to return a book. This is only valid if a mistake is made on the side on Re-Book IT.
-    In specific this means a wrong qualitylabel or wrong product information.\n\n
-        Word of warning: this info will be displayed as long as there is no data in the database. Please be patient</string>
+    In specific this means a wrong qualitylabel or wrong product information.\n\n</string>
     <string name="info_label">Info</string>
+    <string name="author_detail">Authors:\n</string>
+    <string name="courses_detail">Courses:\n</string>
+    <string name="university_detail">Universities:\n</string>
+    <string name="no_courses_found">No courses found</string>
+    <string name="no_univerities_found">No universities found</string>
+    <string name="isbn_detail">ISBN:\n</string>
+    <string name="count_detail">Count:\n</string>
+    <string name="quality_detail">Quality:\n</string>
+    <string name="share_title">Share the book with all your friends</string>
+    <string name="share_begin">Just found this awesome book:\n</string>
+    <string name="share_end">Shared with the Re-Book IT app.</string>
 </resources>

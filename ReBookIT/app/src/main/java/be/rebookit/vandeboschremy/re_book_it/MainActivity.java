@@ -1,9 +1,12 @@
 package be.rebookit.vandeboschremy.re_book_it;
 
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
@@ -33,13 +36,16 @@ import java.net.URL;
 
 public class MainActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener , SharedPreferences.OnSharedPreferenceChangeListener{
 
-    private String json;
+    private static String json;
     private Spinner spinner;
-    private RecyclerView mBookList;
-    private BookListAdapter mAdapter;
-    private Cursor mCursor;
+    private static RecyclerView mBookList;
+    private static BookListAdapter mAdapter;
+    private static Cursor mCursor;
     private static String query, searchBy;
     private SharedPreferences prefs;
+    private static boolean downloaderStartedFlag;
+    private static boolean updatedFlag;
+    private static Context mContext;
     private static boolean startedFlag;
 
     @Override
@@ -50,6 +56,15 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        //set the context
+        mContext = MainActivity.this;
+
+        //intentfilter for the reciever
+        IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
+
+        //register the reciever for connectionupdates
+        MainActivity.this.registerReceiver(new NetworkChangeListener(), filter);
+
         //check is there is a query saved from last time
         query = null;
         if(savedInstanceState != null && savedInstanceState.containsKey(this.getString(R.string.query_key))){
@@ -57,7 +72,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         }
 
         //check if there is a searchBy preference from last time
-        searchBy = "Title";
+        searchBy = getResources().getStringArray(R.array.searchChoice)[0];
         if(savedInstanceState != null && savedInstanceState.containsKey(this.getString(R.string.searhedBy_key))){
             searchBy = savedInstanceState.getString(this.getString(R.string.searhedBy_key));
         }
@@ -86,11 +101,11 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             else showData(DatabaseUtils.getCursorFromDB(MainActivity.this));
         }
         else{
-            Intent intent = new Intent(this, InfoActivity.class);
-            this.startActivity(intent);
+            if(!startedFlag) {
+                Intent intent = new Intent(this, InfoActivity.class);
+                this.startActivity(intent);
+            }
         }
-        //perform the call the to website only when the application is starting up
-        if(!startedFlag) new Downloader().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "https://rebookit.be/search");
         startedFlag = true;
     }
 
@@ -105,7 +120,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
      * @param response The string from which to build a cursor.
      * @return A cursor of type Cursor.
      */
-    private Cursor getJSONCursor(String response){
+    private static Cursor getJSONCursor(String response){
         try{
             JSONArray array = new JSONArray(response);
             return new JSONArrayCursor(array);
@@ -123,7 +138,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
      * @param text The returned string from the website.
      * @return A String in JSON format.
      */
-    public String convertToRightFormat(String text){
+    private static String convertToRightFormat(String text){
         String jsonFormat;
         String correctJsonFormat = "";
 
@@ -202,16 +217,28 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         return true;
     }
 
+    /**
+     * Load the SettingsActivity.
+     * @param item the MenuItem that was clicked.
+     */
     public void loadSettings(MenuItem item){
         Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
         MainActivity.this.startActivity(intent);
     }
 
+    /**
+     * Load the ContactAcivity.
+     * @param item the MenuItem that was clicked.
+     */
     public void loadContact(MenuItem item){
         Intent intent = new Intent(MainActivity.this, ContactAcitivity.class);
         MainActivity.this.startActivity(intent);
     }
 
+    /**
+     * Load the InfoActivity.
+     * @param item the MenuItem that was clicked.
+     */
     public void loadInfo(MenuItem item){
         Intent intent = new Intent(MainActivity.this, InfoActivity.class);
         MainActivity.this.startActivity(intent);
@@ -225,18 +252,38 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         return query;
     }
 
+    /**
+     * Return the value of the searchBy spinner.
+     * @return The value of the searchBy spinnen.
+     */
     public static String getSearchBy(){
         return searchBy;
+    }
+
+    /**
+     * Return the updatedFlag.
+     * @return the updateFlag.
+     */
+    public static Boolean getUpdatedFlag(){
+        return updatedFlag;
+    }
+
+    /**
+     * Return the downloaderStartedFlag.
+     * @return the downloaderStartedFlag.
+     */
+    public static Boolean getDownloaderStartedFlag(){
+        return downloaderStartedFlag;
     }
 
     /**
      * display the book list to the user
      * @param cursor The cursor that contains the list to be displayed
      */
-    public void showData(Cursor cursor){
+    public static void showData(Cursor cursor){
         mCursor = cursor;
         mBookList.setVisibility(View.VISIBLE);
-        mAdapter = new BookListAdapter(MainActivity.this, mCursor);
+        mAdapter = new BookListAdapter(mContext, mCursor);
         mBookList.setAdapter(mAdapter);
     }
 
@@ -269,19 +316,25 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
     }
 
+    /**
+     * This function runs when there has been a change in the settings menu.
+     * @param sharedPreferences The preferences.
+     * @param key
+     */
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         showData(DatabaseUtils.getCursorFromDB(MainActivity.this));
     }
 
-    private class Downloader extends AsyncTask<String,Void,Void> {
+    public static class Downloader extends AsyncTask<String,Void,Void> {
         /**
          * Show a toast to notify the user that the data is loading.
          */
         @Override
         protected void onPreExecute(){
-            Toast toast = Toast.makeText(MainActivity.this, "Updating content", Toast.LENGTH_SHORT);
+            Toast toast = Toast.makeText(mContext, "Updating content", Toast.LENGTH_SHORT);
             toast.show();
+            downloaderStartedFlag = true;
         }
         /**
          * extract the list of books from the Re-Book-IT website and convert it to a json format.
@@ -304,7 +357,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 json = convertToRightFormat(text);
                 if(json != null){
                     mCursor = getJSONCursor(json);
-                    DatabaseUtils.saveToDB(MainActivity.this, mCursor);
+                    DatabaseUtils.saveToDB(mContext, mCursor);
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -320,14 +373,16 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         protected void onPostExecute(Void result){
 
             if(json != null){
-                Toast toast = Toast.makeText(MainActivity.this, "Content has been updated", Toast.LENGTH_SHORT);
+                Toast toast = Toast.makeText(mContext, "Content has been updated", Toast.LENGTH_SHORT);
                 toast.show();
-                showData(DatabaseUtils.getCursorFromDB(MainActivity.this));
+                showData(DatabaseUtils.getCursorFromDB(mContext));
+                updatedFlag = true;
             }
             else{
-                Toast toast = Toast.makeText(MainActivity.this, "Failed updating content", Toast.LENGTH_SHORT);
+                Toast toast = Toast.makeText(mContext, "Failed updating content", Toast.LENGTH_SHORT);
                 toast.show();
             }
+            downloaderStartedFlag = false;
         }
     }
 }

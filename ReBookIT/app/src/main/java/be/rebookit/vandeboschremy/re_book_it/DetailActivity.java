@@ -91,31 +91,31 @@ public class DetailActivity extends AppCompatActivity{
             subtitle.setText(cursor.getString(cursor.getColumnIndex(BookDataSheet.DataTable.COLUMN_NAME_SUBTITLE)));
         }
         else{
-            subtitle.setText("No subtitle found");
+            subtitle.setText(this.getString(R.string.nothing_found));
         }
 
         String authorString = cursor.getString(cursor.getColumnIndex(BookDataSheet.DataTable.COLUMN_NAME_AUTHORS));
         authorString = authorString.replace("[","").replace("]","");
-        authors.setText("Authors: "+ authorString);
+        authors.setText(this.getString(R.string.author_detail) + authorString);
 
         edition.setText(cursor.getString(cursor.getColumnIndex(BookDataSheet.DataTable.COLUMN_NAME_EDITION)));
         if(!cursor.getString(cursor.getColumnIndex(BookDataSheet.DataTable.COLUMN_NAME_COURSES)).equals("[]")){
             String coursesString = cursor.getString(cursor.getColumnIndex(BookDataSheet.DataTable.COLUMN_NAME_COURSES));
             coursesString = coursesString.replace("]", "").replace("[", "");
-            courses.setText("Courses: "+ coursesString);
+            courses.setText(this.getString(R.string.courses_detail) + coursesString);
 
             String institutionsString = cursor.getString(cursor.getColumnIndex(BookDataSheet.DataTable.COLUMN_NAME_INSTITUTIONS));
             institutionsString = institutionsString.replace("]","").replace("[","");
-            institutions.setText("Universities: "+ institutionsString);
+            institutions.setText(this.getString(R.string.university_detail) + institutionsString);
         }
         else{
-            courses.setText("No courses found");
-            institutions.setText("No universities found");
+            courses.setText(this.getString(R.string.no_courses_found));
+            institutions.setText(this.getString(R.string.no_univerities_found));
         }
-        isbn.setText("ISBN: "+ cursor.getString(cursor.getColumnIndex(BookDataSheet.DataTable.COLUMN_NAME_ISBN)));
+        isbn.setText(this.getString(R.string.isbn_detail) + cursor.getString(cursor.getColumnIndex(BookDataSheet.DataTable.COLUMN_NAME_ISBN)));
         price.setText(cursor.getString(cursor.getColumnIndex(BookDataSheet.DataTable.COLUMN_NAME_PRICE))+"€");
-        count.setText("Count: "+ cursor.getString(cursor.getColumnIndex(BookDataSheet.DataTable.COLUMN_NAME_COUNT)));
-        quality.setText("Quality: "+ cursor.getString(cursor.getColumnIndex(BookDataSheet.DataTable.COLUMN_NAME_QUALITY)) +"%");
+        count.setText(this.getString(R.string.count_detail) + cursor.getString(cursor.getColumnIndex(BookDataSheet.DataTable.COLUMN_NAME_COUNT)));
+        quality.setText(this.getString(R.string.quality_detail) + cursor.getString(cursor.getColumnIndex(BookDataSheet.DataTable.COLUMN_NAME_QUALITY)) +"%");
 
         String url = cursor.getString(cursor.getColumnIndex(BookDataSheet.DataTable.COLUMN_NAME_IMAGEURL));
         Log.i("DetailAcitivy", url);
@@ -132,15 +132,14 @@ public class DetailActivity extends AppCompatActivity{
 
     public void share(MenuItem item){
         String mimeType = "text/plain";
-        String title = "Share the book with all your friends";
-        String text = "Just found this awesome book:\n"
+        String text = this.getString(R.string.share_begin)
                         +this.title.getText() + "\n"
                         +this.authors.getText() + "\n"
                         +this.isbn.getText() + "\n"
                         +this.quality.getText() + "\n"
-                        +"Shared with the Re-Book IT app.";
+                        +this.getString(R.string.share_end);
         Intent intent = ShareCompat.IntentBuilder.from(this)
-                                                    .setChooserTitle(title)
+                                                    .setChooserTitle(this.getString(R.string.share_title))
                                                     .setType(mimeType)
                                                     .setText(text)
                                                     .getIntent();

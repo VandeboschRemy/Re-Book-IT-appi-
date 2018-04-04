@@ -8,4 +8,9 @@
         android:defaultValue="@string/sortByDefault"
         android:summary="%s">
     </ListPreference>
+    <SeekBarPreference
+        android:key="@string/max_price_key"
+        android:title="@string/max_price_key"
+        android:max="150"
+        android:defaultValue="150" />
 </PreferenceScreen>
