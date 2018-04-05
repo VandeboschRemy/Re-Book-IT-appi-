@@ -1,6 +1,7 @@
 package be.rebookit.vandeboschremy.re_book_it;
 
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -47,6 +48,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     private static boolean updatedFlag;
     private static Context mContext;
     private static boolean startedFlag;
+    private static BroadcastReceiver reciever;
 
     @Override
     /**
@@ -63,7 +65,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
 
         //register the reciever for connectionupdates
-        MainActivity.this.registerReceiver(new NetworkChangeListener(), filter);
+        reciever = new NetworkChangeListener();
+        registerReceiver(reciever, filter);
 
         //check is there is a query saved from last time
         query = null;
@@ -113,6 +116,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     protected void onDestroy(){
         super.onDestroy();
         prefs.unregisterOnSharedPreferenceChangeListener(this);
+        unregisterReceiver(reciever);
     }
 
     /**
