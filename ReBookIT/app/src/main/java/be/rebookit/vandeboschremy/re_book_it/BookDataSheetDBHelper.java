@@ -6,6 +6,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 /**
  * Created by Vandebosch Remy on 7/03/2018.
+ * The helper class that builds and updates database.
  */
 
 public class BookDataSheetDBHelper extends SQLiteOpenHelper {
@@ -34,11 +35,21 @@ public class BookDataSheetDBHelper extends SQLiteOpenHelper {
         super(context, "BookDataSheetDB", null, 1);
     }
 
+    /**
+     * Create a new datatable in the database.
+     * @param db The database.
+     */
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(SQL_CREATE_ENTRIES);
     }
 
+    /**
+     * upgrade the database by deleting the existing datatable and creating a new datatable.
+     * @param db The database.
+     * @param oldVersion The number of the old version of the database.
+     * @param newVersion The number of the new version of the database.
+     */
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL(SQL_DELETE_ENTRIES);

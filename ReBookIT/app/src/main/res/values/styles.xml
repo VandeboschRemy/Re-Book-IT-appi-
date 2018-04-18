@@ -15,5 +15,17 @@
         <item name="android:textColorSecondary">@color/textcolor</item>
         <item name="android:textColorPrimary">@color/textcolor</item>
     </style>
+    
+    <style name="SplashScreenTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/green</item>
+        <item name="colorPrimaryDark">@color/darkGreen</item>
+        <item name="colorAccent">@color/textcolor</item>
+        <item name="android:textColor">@color/textcolor</item>
+        <item name="android:itemBackground">@color/darkbackground</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:colorBackground">@color/darkbackground</item>
+        <item name="android:textColorSecondary">@color/textcolor</item>
+        <item name="android:textColorPrimary">@color/textcolor</item>
+    </style>
 
 </resources>

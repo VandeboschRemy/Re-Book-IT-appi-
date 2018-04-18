@@ -8,6 +8,9 @@ import android.provider.BaseColumns;
 
 public final class BookDataSheet {
 
+    /**
+     * The contract of the sqlite datatable.
+     */
     private BookDataSheet(){}
 
     //create contruct of data table

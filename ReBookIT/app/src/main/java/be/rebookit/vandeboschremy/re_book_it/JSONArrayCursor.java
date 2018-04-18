@@ -11,6 +11,10 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+/**
+ * This class returns a JSON cursor from a string.
+ * This class was provided by Niek Vandael.
+ */
 public class JSONArrayCursor extends AbstractCursor {
 
     public static final String DATA_KEY = "id";

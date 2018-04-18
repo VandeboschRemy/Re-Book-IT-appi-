@@ -336,7 +336,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
          */
         @Override
         protected void onPreExecute(){
-            Toast toast = Toast.makeText(mContext, "Updating content", Toast.LENGTH_SHORT);
+            Toast toast = Toast.makeText(mContext, mContext.getString(R.string.toast_start_update), Toast.LENGTH_SHORT);
             toast.show();
             downloaderStartedFlag = true;
         }
@@ -377,13 +377,13 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         protected void onPostExecute(Void result){
 
             if(json != null){
-                Toast toast = Toast.makeText(mContext, "Content has been updated", Toast.LENGTH_SHORT);
+                Toast toast = Toast.makeText(mContext, mContext.getString(R.string.toast_end_succes), Toast.LENGTH_SHORT);
                 toast.show();
                 showData(DatabaseUtils.getCursorFromDB(mContext));
                 updatedFlag = true;
             }
             else{
-                Toast toast = Toast.makeText(mContext, "Failed updating content", Toast.LENGTH_SHORT);
+                Toast toast = Toast.makeText(mContext, mContext.getString(R.string.toast_end_fail), Toast.LENGTH_SHORT);
                 toast.show();
             }
             downloaderStartedFlag = false;

@@ -8,6 +8,11 @@ import android.support.v7.app.AppCompatActivity;
  */
 
 public class InfoActivity extends AppCompatActivity {
+
+    /**
+     * This method gets called when the activity is created.
+     * @param savedInstanceState The instance state that is saved.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

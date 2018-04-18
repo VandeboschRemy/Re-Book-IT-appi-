@@ -20,6 +20,11 @@ public class DatabaseUtils {
     private static Context mContext;
     private static String sortBy, maxPrice;
 
+    /**
+     * This method saves the data that was downloaded from the website to a sqlite database.
+     * @param context The context.
+     * @param cursor The JSON cursor from the content that was downloaded.
+     */
     public static void saveToDB(Context context, Cursor cursor){
         mContext = context;
         helper = new BookDataSheetDBHelper(context);
@@ -49,6 +54,11 @@ public class DatabaseUtils {
         Log.i("DatabaseUtils", "database created ");
     }
 
+    /**
+     * Return a cursor from the database that is sorted according to the preferences of the user.
+     * @param context The context
+     * @return A cursor from the database.
+     */
     public static Cursor getCursorFromDB(Context context){
         mContext = context;
         helper = new BookDataSheetDBHelper(context);
@@ -81,21 +91,28 @@ public class DatabaseUtils {
         else return sortByDate();
     }
 
+    /**
+     * Return a cursor from the database that is filtered by the searchterm and the spinner in the mainactivity.
+     * @param searchterm The searchterm that was submitted by the user.
+     * @param searchBy The state of the spinner.
+     * @return A cursor with the data that was searched for.
+     */
     public static Cursor getCursorFromDBySearch(String searchterm, String searchBy){
         searchterm = "%" + searchterm + "%";
         String where;
         String[] searchByArray = mContext.getResources().getStringArray(R.array.searchChoice);
+        where = BookDataSheet.DataTable.COLUMN_NAME_PRICE + " <= " + maxPrice;
         if(searchBy.equals(searchByArray[0])){
-            where = BookDataSheet.DataTable.COLUMN_NAME_TITLE + " LIKE ? AND " + BookDataSheet.DataTable.COLUMN_NAME_PRICE + " <= " + maxPrice;
+            where = where + " AND " + BookDataSheet.DataTable.COLUMN_NAME_TITLE + " LIKE ?";
         }
         else if(searchBy.equals(searchByArray[1])){
-            where = BookDataSheet.DataTable.COLUMN_NAME_AUTHORS + " LIKE ? AND " + BookDataSheet.DataTable.COLUMN_NAME_PRICE + " <= " + maxPrice;
+            where = where + " AND " + BookDataSheet.DataTable.COLUMN_NAME_AUTHORS + " LIKE ?";
         }
         else if(searchBy.equals(searchByArray[2])){
-            where = BookDataSheet.DataTable.COLUMN_NAME_COURSES + " LIKE ? AND " + BookDataSheet.DataTable.COLUMN_NAME_PRICE + " <= " + maxPrice;
+            where = where + " AND " + BookDataSheet.DataTable.COLUMN_NAME_COURSES + " LIKE ?";
         }
         else if(searchBy.equals(searchByArray[3])){
-            where = BookDataSheet.DataTable.COLUMN_NAME_ISBN + " LIKE ? AND " + BookDataSheet.DataTable.COLUMN_NAME_PRICE + " <= " + maxPrice;
+            where = where + " AND " + BookDataSheet.DataTable.COLUMN_NAME_ISBN + " LIKE ?";
         }
         else where = null;
         String[]whereArgs = new String[]{searchterm};
@@ -104,11 +121,20 @@ public class DatabaseUtils {
     }
 
 
+    /**
+     * Return a cursor that is sorted by the date from most to last recent.
+     * @return A cursor that is sorted by date.
+     */
     public static Cursor sortByDate(){
         String where  = BookDataSheet.DataTable.COLUMN_NAME_PRICE + " <= " + maxPrice;
         return db.query(BookDataSheet.DataTable.TABLE_NAME, null, where, null, null, null, BookDataSheet.DataTable.COLUMN_NAME_CREATEDAT+" DESC");
     }
 
+    /**
+     * Return a cursor that is sorted by the price.
+     * @param order The order of the list. Ascending or descending.
+     * @return A cursor that is sorted by price.
+     */
     public static Cursor sortByPrice(Order order){
         String where  = BookDataSheet.DataTable.COLUMN_NAME_PRICE + " <= " + maxPrice;
         if(order.equals(Order.ASC)){
@@ -120,6 +146,11 @@ public class DatabaseUtils {
         return null;
     }
 
+    /**
+     * Return a cursor that is sorted by quality.
+     * @param order The order of the list. Ascending or descending.
+     * @return A cursor that is sorted by quality.
+     */
     public static Cursor sortByQuality(Order order){
         String where  = BookDataSheet.DataTable.COLUMN_NAME_PRICE + " <= " + maxPrice;
         if(order.equals(Order.ASC)){
@@ -131,6 +162,10 @@ public class DatabaseUtils {
         return null;
     }
 
+    /**
+     * Return a cursor that is alphabetically sorted by title.
+     * @return A cursor that is alphabetically sorted by title.
+     */
     public static Cursor sortByTitle(){
         String where  = BookDataSheet.DataTable.COLUMN_NAME_PRICE + " <= " + maxPrice;
         return db.query(BookDataSheet.DataTable.TABLE_NAME, null, where, null, null, null, BookDataSheet.DataTable.COLUMN_NAME_TITLE+" ASC");

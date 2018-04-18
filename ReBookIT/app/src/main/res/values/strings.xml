@@ -65,4 +65,8 @@
     <string name="share_title">Share the book with all your friends</string>
     <string name="share_begin">Just found this awesome book:\n</string>
     <string name="share_end">Shared with the Re-Book IT app.</string>
+    <string name="toast_start_update">Updating content</string>
+    <string name="toast_end_succes">Content has been updated</string>
+    <string name="toast_end_fail">Failed updating content</string>
+    <string name="no_network">Turn on internet to update content !!</string>
 </resources>

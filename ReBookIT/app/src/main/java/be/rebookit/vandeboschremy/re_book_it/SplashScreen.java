@@ -36,15 +36,16 @@ public class SplashScreen extends AppCompatActivity {
             public void run() {
                 splashScreenTv.setText("Re-Book");
             }
-        }, 2000);
+        }, 1500);
 
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
                 splashScreenTv.setText("Re-Book IT");
             }
-        }, 3000);
+        }, 2000);
 
+        // start the MainActiviity.
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -52,6 +53,6 @@ public class SplashScreen extends AppCompatActivity {
                 SplashScreen.this.startActivity(intent);
                 SplashScreen.this.finish();
             }
-        }, 3000);
+        }, 2000);
     }
 }

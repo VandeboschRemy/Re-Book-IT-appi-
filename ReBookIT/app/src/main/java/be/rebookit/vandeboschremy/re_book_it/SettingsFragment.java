@@ -9,6 +9,12 @@ import android.support.v7.preference.PreferenceFragmentCompat;
  */
 
 public class SettingsFragment extends PreferenceFragmentCompat {
+
+    /**
+     * Creates the preference fragment.
+     * @param savedInstanceState The instance state that is saved.
+     * @param rootKey The root key.
+     */
     @Override
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
         addPreferencesFromResource(R.xml.pref_visualize);

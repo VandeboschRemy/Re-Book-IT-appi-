@@ -36,17 +36,25 @@ public class DetailActivity extends AppCompatActivity{
     private TextView title,subtitle,authors,edition,courses,isbn,institutions,price,count,quality;
     private Button buyButton;
 
+    /**
+     * The method that gets called when the activity is started.
+     * @param savedInstanceState The instance state that is saved.
+     */
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
 
         Intent intent = getIntent();
+
+        // get the position of the adapter from the intent if it is available.
         if(intent.hasExtra(this.getString(R.string.row_id_key))){
             pos = intent.getIntExtra(this.getString(R.string.row_id_key), 0);
         }
+
+        // get the query that is searched by if it is available.
         if(intent.hasExtra(this.getString(R.string.query_key))){
             String query = intent.getStringExtra(this.getString(R.string.query_key));
-            String searchBy = intent.getStringExtra(this.getString(R.string.searhedBy_key));
+            String searchBy = intent.getStringExtra(this.getString(R.string.searhedBy_key)); // get the state of the spinner.
             if(query != null){
                 cursor = DatabaseUtils.getCursorFromDBySearch(query, searchBy);
             }
@@ -69,6 +77,8 @@ public class DetailActivity extends AppCompatActivity{
         count = (TextView) findViewById(R.id.tv_count);
         quality = (TextView) findViewById(R.id.tv_quality);
         buyButton = (Button) findViewById(R.id.buy_button);
+
+        // set on onlick listener for the button to buy a book.
         buyButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -83,9 +93,14 @@ public class DetailActivity extends AppCompatActivity{
         showData(pos);
     }
 
+    /**
+     * Display the data in the activity.
+     * @param pos The position of the adapter.
+     */
     public void showData(int pos){
-        cursor.moveToPosition(pos);
+        cursor.moveToPosition(pos); // move the cursor to the position.
 
+        // Set the correct text to the correct fields.
         title.setText(cursor.getString(cursor.getColumnIndex(BookDataSheet.DataTable.COLUMN_NAME_TITLE)));
         if(!cursor.getString(cursor.getColumnIndex(BookDataSheet.DataTable.COLUMN_NAME_SUBTITLE)).equals("")){
             subtitle.setText(cursor.getString(cursor.getColumnIndex(BookDataSheet.DataTable.COLUMN_NAME_SUBTITLE)));
@@ -123,6 +138,11 @@ public class DetailActivity extends AppCompatActivity{
         new GetImage().execute("https://rebookit.be/" + url);
     }
 
+    /**
+     * Create the actionbar buttons.
+     * @param menu The menu.
+     * @return A boolean if the creation is successful.
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu){
         MenuInflater inflater = getMenuInflater();
@@ -130,6 +150,10 @@ public class DetailActivity extends AppCompatActivity{
         return true;
     }
 
+    /**
+     * Gets triggered when the share button in the actionbar is clicked.
+     * @param item The item that was clicked.
+     */
     public void share(MenuItem item){
         String mimeType = "text/plain";
         String text = this.getString(R.string.share_begin)
@@ -148,8 +172,16 @@ public class DetailActivity extends AppCompatActivity{
         }
     }
 
+    /**
+     * this asynctask downloads the image of the book.
+     */
     public class GetImage extends AsyncTask<String, Void, Bitmap>{
 
+        /**
+         * Download the image of the book.
+         * @param urls The url of the image.
+         * @return A bitmap that is the downloaded image.
+         */
         @Override
         protected Bitmap doInBackground(String... urls) {
             try {
@@ -166,6 +198,10 @@ public class DetailActivity extends AppCompatActivity{
             return null;
         }
 
+        /**
+         * Set the bitmap to the imageview to display the image.
+         * @param bitmap
+         */
         @Override
         protected void onPostExecute(Bitmap bitmap){
             if(bitmap == null) return;
