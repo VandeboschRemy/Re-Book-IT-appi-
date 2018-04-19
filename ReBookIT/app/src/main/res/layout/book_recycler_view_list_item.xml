@@ -16,7 +16,6 @@
         android:layout_marginLeft="20dp"
         android:layout_alignParentLeft="true"
         android:layout_toLeftOf="@+id/tv_priceTag"
-        android:textIsSelectable="false"
         android:layout_marginRight="10dp">
     </TextView>
 
@@ -25,8 +24,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/tv_priceTag"
         android:padding="16dp"
-        android:layout_alignParentRight="true"
-        android:textIsSelectable="false">
+        android:layout_alignParentRight="true">
     </TextView>
 
     <ImageView
