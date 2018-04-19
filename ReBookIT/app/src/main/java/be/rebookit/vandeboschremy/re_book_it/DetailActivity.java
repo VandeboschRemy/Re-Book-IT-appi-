@@ -100,6 +100,9 @@ public class DetailActivity extends AppCompatActivity{
     public void showData(int pos){
         cursor.moveToPosition(pos); // move the cursor to the position.
 
+        // set the title of the activity to the title of the book
+        setTitle(cursor.getString(cursor.getColumnIndex(BookDataSheet.DataTable.COLUMN_NAME_TITLE)));
+
         // Set the correct text to the correct fields.
         title.setText(cursor.getString(cursor.getColumnIndex(BookDataSheet.DataTable.COLUMN_NAME_TITLE)));
         if(!cursor.getString(cursor.getColumnIndex(BookDataSheet.DataTable.COLUMN_NAME_SUBTITLE)).equals("")){
