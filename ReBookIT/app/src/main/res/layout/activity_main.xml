@@ -7,10 +7,21 @@
     tools:context="be.rebookit.vandeboschremy.re_book_it.MainActivity"
     android:background="@color/darkbackground">
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/no_network"
+        android:id="@+id/no_network_tv"
+        android:visibility="gone"
+        android:background="@color/green"
+        android:textSize="25dp">
+    </TextView>
+
     <Spinner
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/spinner"
+        android:layout_below="@id/no_network_tv"
         android:visibility="gone">
     </Spinner>
 

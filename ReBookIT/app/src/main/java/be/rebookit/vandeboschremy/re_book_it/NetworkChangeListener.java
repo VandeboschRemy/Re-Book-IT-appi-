@@ -33,8 +33,7 @@ public class NetworkChangeListener extends BroadcastReceiver {
         // If the network is not connected tell the user that he needs an internet connection to update.
         else if(info == null && !MainActivity.getUpdatedFlag() && !startedFlag){
             startedFlag = true;
-            Toast toast = Toast.makeText(context, context.getString(R.string.no_network), Toast.LENGTH_LONG);
-            toast.show();
+            MainActivity.showNoNetwork();
         }
     }
 }

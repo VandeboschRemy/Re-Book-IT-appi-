@@ -10,9 +10,11 @@ import android.database.Cursor;
 import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.preference.AndroidResources;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -20,10 +22,12 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.SearchView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONArray;
@@ -49,6 +53,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     private static Context mContext;
     private static boolean startedFlag;
     private static BroadcastReceiver reciever;
+    private static TextView tv;
 
     @Override
     /**
@@ -60,6 +65,9 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
         //set the context
         mContext = MainActivity.this;
+
+        //create the notification to show if the internet is off
+        tv = (TextView) findViewById(R.id.no_network_tv);
 
         //intentfilter for the reciever
         IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
@@ -317,7 +325,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
-
     }
 
     /**
@@ -328,6 +335,22 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         showData(DatabaseUtils.getCursorFromDB(MainActivity.this));
+    }
+
+    /**
+     * This method makes the textview visible that show the user that there is no network connection.
+     */
+    public static void showNoNetwork(){
+        tv.setVisibility(View.VISIBLE);
+        tv.startAnimation(AnimationUtils.loadAnimation(mContext, android.R.anim.slide_in_left));
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                tv.setVisibility(View.GONE);
+                tv.startAnimation(AnimationUtils.loadAnimation(mContext, android.R.anim.slide_out_right));
+            }
+        }, 3000);
     }
 
     public static class Downloader extends AsyncTask<String,Void,Void> {
