@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
 /**
+ * The SettingsActivity lets the user filter the list of books in the MainActivity by the maximum price
+ * and the way that the list is sorted.
  * Created by Vandebosch Remy on 21/03/2018.
  */
 

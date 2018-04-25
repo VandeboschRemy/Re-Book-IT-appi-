@@ -6,10 +6,10 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.preference.PreferenceManager;
-import android.provider.ContactsContract;
 import android.util.Log;
 
 /**
+ * The class that contains the tools to manipulate the database.
  * Created by Vandebosch Remy on 5/03/2018.
  */
 
@@ -30,7 +30,6 @@ public class DatabaseUtils {
         helper = new BookDataSheetDBHelper(context);
         db = helper.getWritableDatabase();
         if(getCursorFromDB(context) != null) helper.onUpgrade(db, 1, 1);
-        Log.i("DatabaseUtils", String.valueOf(cursor.getCount()));
 
         ContentValues values = new ContentValues();
         while(cursor.moveToNext()){

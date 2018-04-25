@@ -49,7 +49,7 @@
     <string name="info_green_smiley">80% or more / unused</string>
     <string name="info_red_smiley">70% / used without notes</string>
     <string name="info_grey_smiley">50% / with notes</string>
-    <string name="info_yellow_smiley">30% / with A LOT of notes of just an old edition</string>
+    <string name="info_yellow_smiley">30% / with A LOT of notes or just an old edition</string>
     <string name="info_warranty_heading">What warranty is provided at Re-Book IT</string>
     <string name="info_warranty">Every client gets one month to return a book. This is only valid if a mistake is made on the side on Re-Book IT.
     In specific this means a wrong qualitylabel or wrong product information.\n\n</string>

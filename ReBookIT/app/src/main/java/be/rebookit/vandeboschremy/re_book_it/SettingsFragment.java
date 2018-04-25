@@ -1,10 +1,10 @@
 package be.rebookit.vandeboschremy.re_book_it;
 
 import android.os.Bundle;
-import android.preference.PreferenceFragment;
 import android.support.v7.preference.PreferenceFragmentCompat;
 
 /**
+ * The Settingsfragment renders the preference screen.
  * Created by Vandebosch Remy on 14/03/2018.
  */
 

@@ -83,7 +83,7 @@ public class BookListAdapter extends RecyclerView.Adapter<BookListAdapter.BookLi
     }
 
     /**
-     * Return the numbre items in the cursor.
+     * Return the number of items in the cursor.
      * @return The number of items in the cursor.
      */
     @Override
@@ -116,6 +116,7 @@ public class BookListAdapter extends RecyclerView.Adapter<BookListAdapter.BookLi
 
         /**
          * Triggers if there is clicked on a viewholder.
+         * It starts the detailactivity.
          * @param v The view that is clicked on.
          */
         @Override

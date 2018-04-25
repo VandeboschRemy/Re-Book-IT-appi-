@@ -3,13 +3,14 @@ package be.rebookit.vandeboschremy.re_book_it;
 import android.provider.BaseColumns;
 
 /**
+ * The contract of the sqlite datatable.
  * Created by Vandebosch Remy on 7/03/2018.
  */
 
 public final class BookDataSheet {
 
     /**
-     * The contract of the sqlite datatable.
+     * The constructor for the contract of the sqlite datatable.
      */
     private BookDataSheet(){}
 

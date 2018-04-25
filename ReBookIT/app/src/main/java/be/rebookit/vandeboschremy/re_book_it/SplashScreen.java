@@ -7,6 +7,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
 
 /**
+ * The SplashScreen shows the user a loading screen when the app is started.
+ * It is pure aesthetic.
  * Created by Vandebosch Remy on 12/04/2018.
  */
 

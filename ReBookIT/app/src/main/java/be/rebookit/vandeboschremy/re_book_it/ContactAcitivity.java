@@ -24,9 +24,9 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 /**
+ * The ContactActivity displays the always changing opening hours of the shop and a map where to find it.
  * Created by Vandebosch Remy on 24/03/2018.
  */
-
 public class ContactAcitivity extends AppCompatActivity implements OnMapReadyCallback {
 
     private String openingHours;
@@ -35,8 +35,8 @@ public class ContactAcitivity extends AppCompatActivity implements OnMapReadyCal
     private ScrollView scv;
 
     /**
-     * This method that gets called when the activity is started.
-     * @param savedInstanceState The instance state was saved.
+     * This method gets called when the activity is started.
+     * @param savedInstanceState The instance state that was saved.
      */
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -51,7 +51,7 @@ public class ContactAcitivity extends AppCompatActivity implements OnMapReadyCal
 
         scv = (ScrollView) findViewById(R.id.scv);
 
-        // Set an overlap to the map so that it is possible to move the map instead of moving the scrollview.
+        // Set an overlay to the map so that it is possible to move the map instead of moving the scrollview.
         mapViewOverlay = (View) findViewById(R.id.map_view_overlay);
         mapViewOverlay.setOnTouchListener(new View.OnTouchListener() {
             @Override

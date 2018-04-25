@@ -14,7 +14,6 @@ import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.preference.AndroidResources;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -39,6 +38,10 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+/**
+ * The MainActivity has a recyclerview that displays the list of available books at Re-Book IT.
+ * There is also the possibility to search for a specific book based on the title, author, course or ISBN.
+ */
 public class MainActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener , SharedPreferences.OnSharedPreferenceChangeListener{
 
     private static String json;
@@ -48,10 +51,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     private static Cursor mCursor;
     private static String query, searchBy;
     private SharedPreferences prefs;
-    private static boolean downloaderStartedFlag;
-    private static boolean updatedFlag;
+    private static boolean downloaderStartedFlag, updatedFlag, startedFlag;
     private static Context mContext;
-    private static boolean startedFlag;
     private static BroadcastReceiver reciever;
     private static TextView tv;
 
@@ -120,6 +121,9 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         startedFlag = true;
     }
 
+    /**
+     * THe method that is called when this activity is destroyed.
+     */
     @Override
     protected void onDestroy(){
         super.onDestroy();
@@ -145,8 +149,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     }
 
     /**
-     * Because the string returned from the website is not perfect JSON format,
-     * convert it to the right format
+     * Convert the string returned from the website to the right format
+     * because it is not perfect JSON format.
      * @param text The returned string from the website.
      * @return A String in JSON format.
      */
@@ -299,8 +303,10 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         mBookList.setAdapter(mAdapter);
     }
 
-
-
+    /**
+     * This method saves the query and state of the spinner when the activity is paused.
+     * @param outState The Bundle in which the data is saved.
+     */
     @Override
     protected void onSaveInstanceState(Bundle outState){
         super.onSaveInstanceState(outState);
@@ -310,10 +316,10 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
     /**
      * Triggers when the user selected an item from the spinner.
-     * @param parent
-     * @param view
+     * @param parent The AdapterView.
+     * @param view Te View.
      * @param position The position of the element that was selected.
-     * @param id
+     * @param id The id.
      */
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -323,6 +329,10 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         showData(DatabaseUtils.getCursorFromDBySearch(query, searchBy));
     }
 
+    /**
+     * Triggers when nothing is selected on the spinner.
+     * @param parent The AdapterView.
+     */
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
     }
@@ -330,7 +340,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     /**
      * This function runs when there has been a change in the settings menu.
      * @param sharedPreferences The preferences.
-     * @param key
+     * @param key The key.
      */
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
@@ -342,15 +352,15 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
      */
     public static void showNoNetwork(){
         tv.setVisibility(View.VISIBLE);
-        tv.startAnimation(AnimationUtils.loadAnimation(mContext, android.R.anim.slide_in_left));
+        tv.startAnimation(AnimationUtils.loadAnimation(mContext, R.anim.slide_down));
 
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
                 tv.setVisibility(View.GONE);
-                tv.startAnimation(AnimationUtils.loadAnimation(mContext, android.R.anim.slide_out_right));
+                tv.startAnimation(AnimationUtils.loadAnimation(mContext, R.anim.slide_up));
             }
-        }, 3000);
+        }, 4000);
     }
 
     public static class Downloader extends AsyncTask<String,Void,Void> {
@@ -364,7 +374,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             downloaderStartedFlag = true;
         }
         /**
-         * extract the list of books from the Re-Book-IT website and convert it to a json format.
+         * Extract the list of books from the Re-Book-IT website and convert it to a json format.
          * @param url the url of the website
          */
         @Override
@@ -402,7 +412,12 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             if(json != null){
                 Toast toast = Toast.makeText(mContext, mContext.getString(R.string.toast_end_succes), Toast.LENGTH_SHORT);
                 toast.show();
-                showData(DatabaseUtils.getCursorFromDB(mContext));
+                if(getQuery() != null){
+                    showData(DatabaseUtils.getCursorFromDBySearch(query, searchBy));
+                }
+                else{
+                    showData(DatabaseUtils.getCursorFromDB(mContext));
+                }
                 updatedFlag = true;
             }
             else{

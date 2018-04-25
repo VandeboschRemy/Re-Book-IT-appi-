@@ -25,6 +25,8 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 /**
+ * The DetailActivity displays the details of the book that was selected from the MainActivity.
+ * There is also the possibility to buy the book through the website or share it with social media and more.
  * Created by Vandebosch Remy on 21/02/2018.
  */
 

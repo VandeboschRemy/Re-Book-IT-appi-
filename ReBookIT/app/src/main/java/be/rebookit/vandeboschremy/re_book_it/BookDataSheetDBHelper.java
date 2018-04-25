@@ -6,9 +6,8 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 /**
  * Created by Vandebosch Remy on 7/03/2018.
- * The helper class that builds and updates database.
+ * The helper class that builds and updates the database.
  */
-
 public class BookDataSheetDBHelper extends SQLiteOpenHelper {
     private static final String SQL_CREATE_ENTRIES =
             "CREATE TABLE " + BookDataSheet.DataTable.TABLE_NAME + " (" +
@@ -31,6 +30,10 @@ public class BookDataSheetDBHelper extends SQLiteOpenHelper {
             "DROP TABLE IF EXISTS " + BookDataSheet.DataTable.TABLE_NAME;
 
 
+    /**
+     * The constructor for the helper class.
+     * @param context The context.
+     */
     public BookDataSheetDBHelper(Context context){
         super(context, "BookDataSheetDB", null, 1);
     }

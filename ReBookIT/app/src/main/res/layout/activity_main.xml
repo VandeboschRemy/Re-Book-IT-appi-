@@ -14,7 +14,9 @@
         android:id="@+id/no_network_tv"
         android:visibility="gone"
         android:background="@color/green"
-        android:textSize="25dp">
+        android:textSize="25dp"
+        android:textColor="@color/darkbackground"
+        android:layout_marginHorizontal="50dp">
     </TextView>
 
     <Spinner

@@ -9,6 +9,7 @@ import android.os.AsyncTask;
 import android.widget.Toast;
 
 /**
+ * The NetworkChangeListener listens for a change in the internet connectivity.
  * Created by Vandebosch Remy on 4/04/2018.
  */
 
