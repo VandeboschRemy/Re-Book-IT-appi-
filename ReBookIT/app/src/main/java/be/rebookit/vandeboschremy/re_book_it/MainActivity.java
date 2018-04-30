@@ -194,7 +194,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         inflater.inflate(R.menu.main, menu);
 
         //set an onQueryTextListener to the searchview
-        final SearchView searchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
+        MenuItem searchViewMenuItem = (MenuItem) menu.findItem(R.id.action_search);
+        final SearchView searchView = (SearchView) searchViewMenuItem.getActionView();
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -213,7 +214,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             }
         });
         //set an onActionExpandListener to the searchview
-        menu.findItem(R.id.action_search).setOnActionExpandListener(new MenuItem.OnActionExpandListener() {
+        searchViewMenuItem.setOnActionExpandListener(new MenuItem.OnActionExpandListener() {
             @Override
             public boolean onMenuItemActionExpand(MenuItem item) {
                 //open the keyboard when the searchview is expanded
@@ -225,11 +226,20 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             public boolean onMenuItemActionCollapse(MenuItem item) {
                 //make the spinner disappear and load the previous list
                 spinner.setVisibility(View.GONE);
+                searchView.clearFocus();
                 showData(DatabaseUtils.getCursorFromDB(MainActivity.this));
                 MainActivity.this.query = null;
                 return true;
             }
         });
+
+        //if there is a query expand the SearchView
+        //this is used when the screen is rotated
+        if(query != null){
+            searchViewMenuItem.expandActionView();
+            searchView.setQuery(query, false);
+            searchView.clearFocus();
+        }
         return true;
     }
 
