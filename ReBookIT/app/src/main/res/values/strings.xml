@@ -9,8 +9,8 @@
     <string name="title_search">Search by title</string>
     <string name="author_search">Search by author</string>
     <string name="courses_search">Search by course</string>
-    <string name="searhedBy_key">SEARCHEDBY</string>
-    <string name="search_query_key">SEARCHQUERYKEY</string>
+    <string name="searhedBy_key" translatable="false">SEARCHEDBY</string>
+    <string name="search_query_key" translatable="false">SEARCHQUERYKEY</string>
     <string name="loading">Please wait while content is loading...</string>
     <string name="opening_hours_heading">OPENING HOURS</string>
     <string name="adress_heading">ADRESS</string>
@@ -21,7 +21,7 @@
         <item>Course</item>
         <item>ISBN</item>
     </string-array>
-    <string name="sort_by_key">Sort by</string>
+    <string name="sort_by_key" translatable="false">Sort by</string>
     <string-array name="sortBy">
         <item>Most recent</item>
         <item>Cheap first</item>
@@ -39,7 +39,7 @@
         <item>5</item>
     </string-array>
     <string name="sortByDefault">0</string>
-    <string name="max_price_key">Max price</string>
+    <string name="max_price_key" translatable="false">Max price</string>
     <string name="settings_action">Settings</string>
     <string name="contact_action">Contact</string>
     <string name="info_price_heading">Which price do you pay at Re-Book IT?</string>

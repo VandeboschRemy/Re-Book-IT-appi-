@@ -36,6 +36,7 @@ import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
+import java.net.URI;
 import java.net.URL;
 
 /**
@@ -268,6 +269,17 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     public void loadInfo(MenuItem item){
         Intent intent = new Intent(MainActivity.this, InfoActivity.class);
         MainActivity.this.startActivity(intent);
+    }
+
+    /**
+     * Redirect to the sell web page of Re-Book IT
+     */
+    public void loadSell(MenuItem item){
+        Uri webpage = Uri.parse("https://rebookit.be/sell");
+        Intent intent = new Intent(Intent.ACTION_VIEW, webpage);
+        if (intent.resolveActivity(getPackageManager()) != null) {
+            startActivity(intent);
+        }
     }
 
     /**

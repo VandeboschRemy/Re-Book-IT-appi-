@@ -32,6 +32,12 @@
                     app:showAsAction="always"
                     android:onClick="loadInfo">
                 </item>
+                <item
+                    android:title="Sell books"
+                    android:id="@+id/action_sell"
+                    app:showAsAction="always"
+                    android:onClick="loadSell">
+                </item>
             </menu>
     </item>
 </menu>
