@@ -165,21 +165,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         if(start == -1 || end == -1) return null;
         jsonFormat = text.substring(start, end);
 
-        //check for arrays that contain only one element and remove the brackets.
-        for(String subString : jsonFormat.split(":")){
-            if(subString.indexOf("[") != -1 &&
-                    subString.indexOf("]") != -1 &&
-                    !subString.substring(subString.indexOf("["), subString.indexOf("]")).contains(",")){
-                subString = subString.replace("[","");
-                subString = subString.replace("]","");
-            }
-            if(!subString.contains("}]")){
-                correctJsonFormat = correctJsonFormat + subString + ":";
-            }
-            else{
-                correctJsonFormat = correctJsonFormat + subString;
-            }
-        }
         return jsonFormat;
     }
 
