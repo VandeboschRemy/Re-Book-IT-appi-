@@ -50,9 +50,9 @@
     <string name="info_red_smiley">70% / used without notes</string>
     <string name="info_grey_smiley">50% / with notes</string>
     <string name="info_yellow_smiley">30% / with A LOT of notes or just an old edition</string>
-    <string name="info_warranty_heading">What warranty is provided at Re-Book IT</string>
+    <string name="info_warranty_heading">What warranty is provided at Re-Book IT?</string>
     <string name="info_warranty">Every client gets one month to return a book. This is only valid if a mistake is made on the side on Re-Book IT.
-    In specific this means a wrong qualitylabel or wrong product information.\n\n</string>
+    Specifically this means a wrong qualitylabel or wrong product information.\n\n</string>
     <string name="info_label">Info</string>
     <string name="author_detail">Authors:\n</string>
     <string name="courses_detail">Courses:\n</string>
@@ -69,4 +69,5 @@
     <string name="toast_end_succes">Content has been updated</string>
     <string name="toast_end_fail">Failed updating content</string>
     <string name="no_network">Turn on internet to update content !!</string>
+    <string name="Author_info">Created by Vandebosch Remy</string>
 </resources>
