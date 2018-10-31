@@ -166,6 +166,7 @@ public class DetailActivity extends AppCompatActivity{
                         +this.authors.getText() + "\n"
                         +this.isbn.getText() + "\n"
                         +this.quality.getText() + "\n"
+                        +this.price.getText() + "\n"
                         +this.getString(R.string.share_end);
         Intent intent = ShareCompat.IntentBuilder.from(this)
                                                     .setChooserTitle(this.getString(R.string.share_title))
